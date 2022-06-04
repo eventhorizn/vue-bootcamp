@@ -45,3 +45,158 @@
    ```html
    <script src="https://unpkg.com/vue@3"></script>
    ```
+
+## Connecting a vue app to a section of html
+
+```html
+<section id="user-goal">
+	<h2>My Course Goal</h2>
+	<p>{{ courseGoal }}</p>
+</section>
+```
+
+```js
+const app = Vue.createApp({
+	data() {
+		return {
+			courseGoal: 'Finish the course and learn Vue.',
+		};
+	},
+});
+
+app.mount('#user-goal');
+```
+
+- We are also using Interpolation and Data Binding
+  - {{ courseGoal }}
+- It will only work within the section we have defined for vue
+
+# DOM Interaction with Vue
+
+## Interpolation
+
+```html
+<section id="user-goal">
+	<h2>My Course Goal</h2>
+	<p>{{ courseGoal }}</p>
+	<p>Learn more <a v-bind:href="vueLink">about Vue</a>.</p>
+</section>
+```
+
+```js
+const app = Vue.createApp({
+	data() {
+		return {
+			courseGoal: 'Finish the course and learn Vue.',
+		};
+	},
+});
+```
+
+- Simple example of including an interpolated value in the hmtl from vue
+
+## Data Binding
+
+```html
+<section id="user-goal">
+	<h2>My Course Goal</h2>
+	<p>Learn more <a v-bind:href="vueLink">about Vue</a>.</p>
+</section>
+```
+
+```js
+const app = Vue.createApp({
+	data() {
+		return {
+			vueLink: 'https://vuejs.org',
+		};
+	},
+});
+```
+
+- `v-bind` works with any html tag an element has
+
+## Methods
+
+```html
+<section id="user-goal">
+	<h2>My Course Goal</h2>
+	<p>{{ outputGoal() }}</p>
+</section>
+```
+
+```js
+const app = Vue.createApp({
+	methods: {
+		outputGoal() {
+			const randomNumber = Math.random();
+
+			if (randomNumber < 0.5) {
+				return this.courseGoalA;
+			} else {
+				return this.courseGoalB;
+			}
+		},
+	},
+});
+```
+
+## Event Binding
+
+- Binding an html event to a function through vue
+
+```html
+<section id="events">
+	<h2>Events in Action</h2>
+	<input type="text" v-on:input="setName1($event, 'Hake')" />
+	<input type="text" v-on:input="setName2" />
+	<p>Your Name: {{ name }}</p>
+</section>
+```
+
+```js
+const app = Vue.createApp({
+	data() {
+		return {
+			name: '',
+		};
+	},
+	methods: {
+		setName1(event, lastName) {
+			this.name = event.target.value + ' ' + lastName;
+		},
+		setName2() {
+			this.name = event.target.value;
+		},
+	},
+});
+```
+
+- By default the event is passed through to the function
+- But if you need to pass additional variables in, you have to manually pass the event by `$event`
+
+## Event Modifiers
+
+- Really, just limiting when an event is triggered
+
+```html
+<section id="events">
+	<h2>Events in Action</h2>
+	<button v-on:click="add(10)">Add 10</button>
+	<button v-on:click.right="reduce(5)">Reduce 5</button>
+	<p>Result: {{ counter }}</p>
+	<input
+		type="text"
+		v-on:input="setName($event, 'Hake')"
+		v-on:keyup.enter="confirmName"
+	/>
+	<p>Your Name: {{ confirmedName }}</p>
+
+	<form v-on:submit.prevent="submitForm">
+		<input type="text" />
+		<button>Sign Up</button>
+	</form>
+</section>
+```
+
+- Notice the `v-on:click.right`, `v-on:keyup.enter`, and `v-on:submit.prevent`
