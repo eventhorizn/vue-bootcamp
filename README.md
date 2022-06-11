@@ -200,3 +200,95 @@ const app = Vue.createApp({
 ```
 
 - Notice the `v-on:click.right`, `v-on:keyup.enter`, and `v-on:submit.prevent`
+
+## Data Binding + Event Binding = Two-Way Binding
+
+- These two are equivalent
+- The better way is to simply use two way data binding with `v-model`
+
+```html
+<input type="text" v-bind:value="name" v-on:input="setName($event, 'Hake')" />
+```
+
+```html
+<input type="text" v-model="name" />
+```
+
+## Computed Properties
+
+- When you need a function that really only outputs
+- This allows us to use a function that is only called when the property used is changed
+
+```html
+<p>Your Name: {{ fullname }}</p>
+```
+
+```js
+computed: {
+	fullname() {
+		if (this.name === '') {
+			return '';
+		}
+
+		return this.name + ' ' + 'Hake';
+	},
+},
+```
+
+## Watchers
+
+Similar to a computed property
+
+The big difference is, you use watchers if you want a value to change based on some logic
+
+```js
+data() {
+		return {
+			counter: 0,
+			name: '',
+			lastName: '',
+			//fullname: '',
+		};
+	},
+	watch: {
+		counter(value) {
+			if (value > 50) {
+				this.counter = 0;
+			}
+		},
+	},
+```
+
+The function in the watch section should match the property
+
+## Methods vs Computer vs Watch
+
+1. Methods
+   - Use with event binding OR data binding
+   - Data binding: method is executed for eery 're-render' cycle of the component
+   - User for events or data that really needs to be re-evaluated all the time
+1. Computed
+   - Use with data binding
+   - Only re-evaluated if one of their 'used values' changed
+   - Use dor data that depends on other data
+1. Watch
+   - Not used directly in template
+   - Allows you to run any code in reaction to some changed data (send http request)
+   - Use for any non-data update y ou want to make
+
+## v-bind and v-on Shorthand
+
+You can use the `@` symbol instead of `v-on`
+
+```html
+<button v-on:click="add(10)">Add 10</button>
+<button @click="add(10)">Add 10</button>
+```
+
+You can use the `:` symbol instead of `v-bind:`
+
+```html
+<input type="text" v-bind:value="name" /> <input type="text" :value="name" />
+```
+
+Be consistent (use one or the other)
