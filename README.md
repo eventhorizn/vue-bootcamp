@@ -292,3 +292,67 @@ You can use the `:` symbol instead of `v-bind:`
 ```
 
 Be consistent (use one or the other)
+
+## Styling
+
+Reference 02-04
+
+# Rendering Conditional Content & Lists
+
+## Render Conditional Content
+
+```html
+<p v-if="goals.length === 0">
+	No goals have been added yet - please start adding some!
+</p>
+```
+
+We can add this directly into the html page
+
+`v-else` is an option, but it must come after an element that has `v-if`
+
+```html
+<p v-if="goals.length === 0">
+	No goals have been added yet - please start adding some!
+</p>
+<ul v-else-if="goals.length > 0">
+	<li>Goal</li>
+</ul>
+<p v-else></p>
+```
+
+You can't have anything in-between you if, else-if, else elements
+
+## v-show
+
+`v-if`alternative
+
+- v-if won't add items to the DOM
+- v-show just hides the elements
+
+## v-for
+
+```html
+<ul v-else>
+	<li v-for="goal in goals">{{ goal }}</li>
+</ul>
+```
+
+- You only have access to `goal` inside the list element
+- You can also loop through an object:
+
+```html
+<ul>
+	<li v-for="(value, key, index) in {name: 'Gary', age: 31}">
+		{{ key }}: {{ value }} - {{ index }}
+	</li>
+</ul>
+```
+
+- Or a range of numbers
+
+```html
+<ul>
+	<li v-for="num in 10">{{ num }}</li>
+</ul>
+```
