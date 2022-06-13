@@ -356,3 +356,126 @@ You can't have anything in-between you if, else-if, else elements
 	<li v-for="num in 10">{{ num }}</li>
 </ul>
 ```
+
+# Vue Behind the Scenes
+
+## Reactivity Under the Hood
+
+Vue uses a built-in javascript object called `Proxy`
+
+```js
+const data = {
+	message: 'Hello',
+	longMessage: 'Hello World!',
+};
+
+const handler = {
+	set(target, key, value) {
+		if (key === 'message') {
+			target.longMessage = value + ' World';
+		}
+		target.message = value;
+	},
+};
+
+const proxy = new Proxy(data, handler);
+
+proxy.message = 'Hello!!!';
+
+console.log(proxy.longMessage);
+```
+
+This allows you to make objects and properties reactive
+
+## Multiple Vue Apps
+
+You can create multiple vue apps in an application
+
+```html
+<section id="app2">
+	<p>{{ favoriteMeal }}</p>
+</section>
+```
+
+```js
+const app2 = Vue.createApp({
+	data() {
+		return {
+			favoriteMeal: 'Pizza',
+		};
+	},
+});
+
+app2.mount('#app2');
+```
+
+- You can't reference anything from a different app in the app2
+- One 'html part' per app
+  - Official term is `Template`
+
+## Template Alternative
+
+```html
+<section id="app2"></section>
+```
+
+```js
+const app2 = Vue.createApp({
+	template: `
+    <p>{{ favoriteMeal }}</p>
+  `,
+	data() {
+		return {
+			favoriteMeal: 'Pizza',
+		};
+	},
+});
+```
+
+## refs
+
+```html
+<input type="text" ref="userText" />
+```
+
+```js
+methods: {
+	saveInput(event) {
+		this.currentUserInput = event.target.value;
+	},
+	setText() {
+		//this.message = this.currentUserInput;
+		this.message = this.$refs.userText.value;
+	},
+}
+```
+
+- `$refs` is a built in vue object
+- It allows you to reference anything defined in the DOM
+  - In this case `userText`
+
+## How Vue Updates the DOM
+
+- Vue Instance
+  - Stores data, computer properties, methods
+  ```js
+  title: 'Hello',
+  text: 'Not the title'
+  ```
+  - Data and computed properties may change
+  - Because of user input
+- Browser DOM
+  - Vue-controlled template is rendered in the DOM
+  ```html
+  <h2>Hello!</h2>
+  <p>Not the title</p>
+  ```
+  - Updates should be reflected, but Vue should **not** re-render everything
+- Virtual DOM
+
+  - JS-based DOM which exists only in memory
+  - Updates are made to the virtual DOM first, only differences are then rendered to real DOM
+
+## Vue Instance Lifecycle
+
+![](./images/05-vue-behind-the-scenes/lifecycle.png)
