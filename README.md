@@ -492,3 +492,134 @@ methods: {
    ```node
    npm run dev
    ```
+1. Vue files now have the `.vue` Extension
+   - We also will include html, styling, and javascript all in one file
+   - Vue files will be broken into self contained components
+
+# Components
+
+- FriendContact Component
+
+```vue
+<template>
+	<li>
+		<h2>{{ friend.name }}</h2>
+		<button @click="toggleDetails">
+			‌{{ detailsAreVisible ? 'Hide' : 'Show' }} Details
+		</button>
+		<ul v-if="detailsAreVisible">
+			<li><strong>Phone:</strong> {{ friend.phone }}</li>
+			<li><strong>Email:</strong> {{ friend.email }}</li>
+		</ul>
+	</li>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				detailsAreVisible: false,
+				friend: {
+					id: 'manuel',
+					name: 'Manuel Lorenz',
+					phone: '0123 045678 90',
+					email: 'manuel@localhost.com',
+				},
+			};
+		},
+		methods: {
+			toggleDetails() {
+				this.detailsAreVisible = !this.detailsAreVisible;
+			},
+		},
+	};
+</script>
+```
+
+- App.vue
+
+```vue
+<script setup>
+	import FriendContact from './components/FriendContact.vue';
+</script>
+
+<template>
+	<section>
+		<header>
+			<h1>My Friends</h1>
+		</header>
+
+		<ul>
+			<FriendContact />
+			<FriendContact />
+		</ul>
+	</section>
+</template>
+```
+
+## Props
+
+This is how we can pass data from a parent to a child component
+
+- FriendContact.vue
+
+```vue
+<template>
+	<li>
+		<h2>{{ name }} {{ friendIsFavorite === '1' ? '(Favorite)' : '' }}</h2>
+		<button @click="toggleFavorite">Toggle Favorite</button>
+		<button @click="toggleDetails">
+			‌{{ detailsAreVisible ? 'Hide' : 'Show' }} Details
+		</button>
+		<ul v-if="detailsAreVisible">
+			<li><strong>Phone:</strong> {{ phoneNumber }}</li>
+			<li><strong>Email:</strong> {{ emailAddress }}</li>
+		</ul>
+	</li>
+</template>
+
+<script>
+	export default {
+		props: ['name', 'phoneNumber', 'emailAddress', 'isFavorite'],
+		data() {
+			return {
+				detailsAreVisible: false,
+				friendIsFavorite: this.isFavorite,
+			};
+		},
+	};
+</script>
+```
+
+- App.vue
+
+```vue
+<ul>
+	<FriendContact
+		name="Manuel Lorenz"
+		phone-number="01234 78992"
+		email-address="manuel@localhost.com"
+		is-favorite="1"
+	/>
+	<FriendContact
+		name="Julie Jones"
+		phone-number="0987 6542"
+		email-address="julie@localhost.com"
+		is-favorite="0"
+	/>
+</ul>
+```
+
+1. You define your data in the parent (app.vue) file
+1. Vue is one directional with props
+   - You should not update (can't really) data in the child component
+1. A way around it, is to copy the data from the parent with a child specific data value
+   ```js
+   data() {
+   		return {
+   			detailsAreVisible: false,
+   			friendIsFavorite: this.isFavorite,
+   		};
+   	},
+   ```
+   - Then use this value `friendIsFavorite` in the child component
