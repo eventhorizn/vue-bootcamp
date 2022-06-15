@@ -623,3 +623,77 @@ This is how we can pass data from a parent to a child component
    	},
    ```
    - Then use this value `friendIsFavorite` in the child component
+
+## Props Validation
+
+[Official Docs](https://vuejs.org/guide/components/props.html)
+
+```js
+props: {
+	name: {
+		type: String,
+		required: true,
+	},
+	phoneNumber: {
+		type: String,
+		required: true,
+	},
+	emailAddress: {
+		type: String,
+		required: true,
+	},
+	isFavorite: {
+		type: String,
+		required: false,
+		default: '0',
+		validator: function (value) {
+			return value === '1' || value === '0';
+		},
+	},
+},
+```
+
+1. This is an alternative way to define props as opposed to listing in an array
+1. Define type, if it's required, default (if not required), and validation function
+1. Any JS type is supported (String, Number, Boolean, Array, Object, Date, Function, Symbol)
+
+## Emitting Custom Events
+
+1. This allows a child to tell a parent to update data
+1. The child doesn't update anything, simply has the parent do it
+
+- FriendContact
+- `this.$emit` will expose an event you can bind to
+
+```js
+methods: {
+	toggleFavorite() {
+		this.$emit('toggle-favorite', this.id);
+	},
+},
+```
+
+- App
+- `@toggle-favorite` is the event we exposed above
+
+```vue
+<FriendContact
+	v-for="friend in friends"
+	:key="friend.id"
+	:id="friend.id"
+	:name="friend.name"
+	:phone-number="friend.phone"
+	:email-address="friend.email"
+	:is-favorite="friend.isFavorite"
+	@toggle-favorite="toggleFavoriteStatus"
+/>
+```
+
+```js
+methods: {
+	toggleFavoriteStatus(friendId) {
+		const friend = this.friends.find((x) => x.id === friendId);
+		friend.isFavorite = !friend.isFavorite;
+	},
+},
+```
