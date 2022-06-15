@@ -479,3 +479,16 @@ methods: {
 ## Vue Instance Lifecycle
 
 ![](./images/05-vue-behind-the-scenes/lifecycle.png)
+
+# Vue CLI and Development Setup
+
+1. [NodeJs](https://nodejs.org/en/) needs to be installed
+   ```node
+   npm init vue
+   ```
+   - You can click 'no' on most options
+1. [Volar VS Code Extension](https://github.com/johnsoncodehk/volar)
+1. Start the app
+   ```node
+   npm run dev
+   ```
