@@ -697,3 +697,64 @@ methods: {
 	},
 },
 ```
+
+## Provide & Inject
+
+- When you have components that are mainly just containers for other components
+  - 'pass-through' components
+- `props` and custom events should be the default
+  - `provide` and `inject` are the exceptions
+  - It makes the code leaner, but makes it harder to understand
+
+### Provide
+
+- This is where you will 'provide' the data in a parent component
+
+```js
+provide: {
+    topics: [
+      {
+        id: 'basics',
+        title: 'The Basics',
+        description: 'Core Vue basics you have to know',
+        fullText:
+          'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+      },
+      {
+        id: 'components',
+        title: 'Components',
+        description:
+          'Components are a core concept for building Vue UIs and apps',
+        fullText:
+          'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+      },
+    ],
+  },
+```
+
+- Typing provide to `data`
+
+```js
+provide() {
+    return {
+      topics: this.topics,
+    };
+  },
+```
+
+- Defined in data, referenced in provide
+
+## Inject
+
+- In a child component, you inject the item you defined in the parent's `provide`
+- Doesn't need to be a direct parent/child. Just an ancestor
+
+```js
+export default {
+	inject: ['topics'],
+	emits: ['select-topic'],
+};
+```
+
+- You can do the same with functions as well
+  - The whole idea is to create a 'hook' in a parent component for a child to connect to
