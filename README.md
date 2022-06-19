@@ -758,3 +758,32 @@ export default {
 
 - You can do the same with functions as well
   - The whole idea is to create a 'hook' in a parent component for a child to connect to
+
+## Global vs Local Components
+
+1. Global are registered on the `main.js` class
+   ```js
+   app.component('the-header', TheHeader);
+   app.component('base-badge', BaseBadge);
+   app.component('badge-list', BadgeList);
+   app.component('user-info', UserInfo);
+   ```
+   - These are all loaded when the app loads
+   - Could be a very long list if the app is large
+1. Local Components
+   ```js
+   export default {
+   	components: {
+   		'the-header': TheHeaderVue,
+   	},
+   	data() {}
+   ```
+
+## Scoped Styles
+
+1. Putting a style section on a component, makes all of those styles Global
+1. Sytles defined in App.vue, this makes sense (they should be global)
+1. But styles defined in a compnent should be Scoped
+   ```html
+   <style scoped></style>
+   ```

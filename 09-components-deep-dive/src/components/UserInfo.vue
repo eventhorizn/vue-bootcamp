@@ -4,10 +4,10 @@
 
 <template>
 	<section>
-		<div>
+		<header>
 			<h3>{{ fullName }}</h3>
 			<BaseBadgeVue :type="role" :caption="role.toUpperCase()" />
-		</div>
+		</header>
 		<p>{{ infoText }}</p>
 	</section>
 </template>
@@ -18,7 +18,7 @@
 	};
 </script>
 
-<style>
+<style scoped>
 	section {
 		margin: 2rem auto;
 		max-width: 30rem;
@@ -27,7 +27,7 @@
 		padding: 1rem;
 	}
 
-	section div {
+	section header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
