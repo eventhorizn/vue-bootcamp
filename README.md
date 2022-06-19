@@ -759,8 +759,6 @@ export default {
 - You can do the same with functions as well
   - The whole idea is to create a 'hook' in a parent component for a child to connect to
 
-# Components Deep Dive
-
 ## Global vs Local Components
 
 1. Global are registered on the `main.js` class
@@ -790,11 +788,11 @@ export default {
    <style scoped></style>
    ```
 
-## Slots
+# Slots
 
 This is a way to make shareable (with styles) sections for a component
 
-### Slot Definition
+## Slot Definition
 
 ```vue
 <template>
@@ -827,7 +825,7 @@ This is a way to make shareable (with styles) sections for a component
 </template>
 ```
 
-### Usage
+## Usage
 
 ```vue
 <template>
@@ -853,6 +851,7 @@ This is a way to make shareable (with styles) sections for a component
 				<h2>Available Badges</h2>
 			</template>
 
+			<template #default>
 			<template v-slot:default>
 				<ul>
 					<li>
@@ -869,3 +868,78 @@ This is a way to make shareable (with styles) sections for a component
 ```
 
 - `v-slot:default` is not required, but it does make it obvious
+- `#default` is an alternative to `v-slot:default`
+
+## Default Content in Slots
+
+You can add default content to a slot that will be rendered if it isn't targeted on a component
+
+```vue
+<template>
+	<div>
+		<header>
+			<slot name="header">
+				<h2>The Default</h2>
+			</slot>
+		</header>
+		<slot></slot>
+	</div>
+</template>
+```
+
+If you reference the component that has the slots, but not the slot itself, it will render the default
+
+```vue
+<template>
+	<section>
+		<BaseCard>
+			<template v-slot:default>
+				<ul>
+					<li>
+						<BaseBadge type="admin" caption="ADMIN" />
+					</li>
+					<li>
+						<BaseBadge type="author" caption="AUTHOR" />
+					</li>
+				</ul>
+			</template>
+		</BaseCard>
+	</section>
+</template>
+```
+
+## Scoped Slots
+
+- The whole idea of a scoped slot is having a slot defined in a component where the data is also located
+- So, you need a way to use the data in the slot component when calling It
+
+### Scoped Slot Component
+
+```vue
+<template>
+	<ul>
+		<li v-for="goal in goals" :key="goal">
+			<slot :item="goal" another-prop="..."></slot>
+		</li>
+	</ul>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				goals: ['Finish the course', 'Learn Vue'],
+			};
+		},
+	};
+</script>
+```
+
+### Using Scoped Slot Component
+
+```vue
+<CourseGoals #default="slotProps">
+	<h2>{{ slotProps.item }}</h2>
+	<p>{{ slotProps['anotherProp'] }}</p>
+</CourseGoals>
+```

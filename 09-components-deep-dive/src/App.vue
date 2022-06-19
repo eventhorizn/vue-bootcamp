@@ -1,18 +1,23 @@
 <script setup>
-	import TheHeaderVue from './components/TheHeader.vue';
-	import BadgeListVue from './components/BadgeList.vue';
-	import UserInfoVue from './components/UserInfo.vue';
+	import TheHeader from './components/TheHeader.vue';
+	import BadgeList from './components/BadgeList.vue';
+	import UserInfo from './components/UserInfo.vue';
+	import CourseGoals from './components/CourseGoals.vue';
 </script>
 
 <template>
 	<div>
-		<TheHeaderVue />
-		<BadgeListVue />
-		<UserInfoVue
+		<TheHeader />
+		<BadgeList />
+		<UserInfo
 			:full-name="activeUser.name"
 			:info-text="activeUser.description"
 			:role="activeUser.role"
 		/>
+		<CourseGoals #default="slotProps">
+			<h2>{{ slotProps.item }}</h2>
+			<p>{{ slotProps['anotherProp'] }}</p>
+		</CourseGoals>
 	</div>
 </template>
 
@@ -21,7 +26,7 @@
 		data() {
 			return {
 				activeUser: {
-					name: 'Maximilian Schwarzmüller',
+					name: 'Gary Hake',
 					description: 'Site owner and admin',
 					role: 'admin',
 				},
