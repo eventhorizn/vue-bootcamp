@@ -759,6 +759,8 @@ export default {
 - You can do the same with functions as well
   - The whole idea is to create a 'hook' in a parent component for a child to connect to
 
+# Components Deep Dive
+
 ## Global vs Local Components
 
 1. Global are registered on the `main.js` class
@@ -787,3 +789,83 @@ export default {
    ```html
    <style scoped></style>
    ```
+
+## Slots
+
+This is a way to make shareable (with styles) sections for a component
+
+### Slot Definition
+
+```vue
+<template>
+	<div><slot></slot></div>
+</template>
+
+<style scoped>
+	div {
+		margin: 2rem auto;
+		max-width: 30rem;
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+		padding: 1rem;
+	}
+</style>
+```
+
+- Notice the `<slot></slot>`
+- You can name Slots
+- Only one can be un-named and that will be the default slot
+
+```vue
+<template>
+	<div>
+		<header>
+			<slot name="header"></slot>
+		</header>
+		<slot></slot>
+	</div>
+</template>
+```
+
+### Usage
+
+```vue
+<template>
+	<section>
+		<BaseCardVue>
+			<header>
+				<h3>{{ fullName }}</h3>
+				<BaseBadgeVue :type="role" :caption="role.toUpperCase()" />
+			</header>
+			<p>{{ infoText }}</p>
+		</BaseCardVue>
+	</section>
+</template>
+```
+
+- Using named slots
+
+```vue
+<template>
+	<section>
+		<BaseCard>
+			<template v-slot:header>
+				<h2>Available Badges</h2>
+			</template>
+
+			<template v-slot:default>
+				<ul>
+					<li>
+						<BaseBadge type="admin" caption="ADMIN" />
+					</li>
+					<li>
+						<BaseBadge type="author" caption="AUTHOR" />
+					</li>
+				</ul>
+			</template>
+		</BaseCard>
+	</section>
+</template>
+```
+
+- `v-slot:default` is not required, but it does make it obvious
