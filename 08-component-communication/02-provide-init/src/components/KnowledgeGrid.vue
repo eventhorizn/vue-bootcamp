@@ -1,10 +1,16 @@
-<script setup>
-import KnowledgeElementVue from './KnowledgeElement.vue';
+<script setup></script>
+
+<script>
+import KnowledgeElement from './KnowledgeElement.vue';
+export default {
+  components: { KnowledgeElement },
+  inject: ['topics'],
+};
 </script>
 
 <template>
   <ul>
-    <KnowledgeElementVue
+    <KnowledgeElement
       v-for="topic in topics"
       :key="topic.id"
       :id="topic.id"
@@ -13,9 +19,3 @@ import KnowledgeElementVue from './KnowledgeElement.vue';
     />
   </ul>
 </template>
-
-<script>
-export default {
-  inject: ['topics'],
-};
-</script>

@@ -1,6 +1,14 @@
-<script setup>
+<script>
 	import BaseBadge from './BaseBadge.vue';
 	import BaseCard from './BaseCard.vue';
+
+	export default {
+		components: {
+			BaseBadge,
+			BaseCard,
+		},
+		props: ['fullName', 'infoText', 'role'],
+	};
 </script>
 
 <template>
@@ -14,9 +22,3 @@
 		</BaseCard>
 	</section>
 </template>
-
-<script>
-	export default {
-		props: ['fullName', 'infoText', 'role'],
-	};
-</script>

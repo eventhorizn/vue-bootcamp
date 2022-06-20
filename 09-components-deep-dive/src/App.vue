@@ -1,12 +1,3 @@
-<script setup>
-	import TheHeader from './components/layout/TheHeader.vue';
-	import ActiveGoals from './components/ActiveGoals.vue';
-	import ManageGoals from './components/ManageGoals.vue';
-	// import BadgeList from './components/BadgeList.vue';
-	// import UserInfo from './components/UserInfo.vue';
-	// import CourseGoals from './components/CourseGoals.vue';
-</script>
-
 <template>
 	<div>
 		<TheHeader />
@@ -32,8 +23,16 @@
 </template>
 
 <script>
+	import TheHeader from './components/layout/TheHeader.vue';
+	import ActiveGoals from './components/ActiveGoals.vue';
+	import ManageGoals from './components/ManageGoals.vue';
+	// import BadgeList from './components/BadgeList.vue';
+	// import UserInfo from './components/UserInfo.vue';
+	// import CourseGoals from './components/CourseGoals.vue';
+
 	export default {
 		components: {
+			TheHeader,
 			ActiveGoals,
 			ManageGoals,
 		},

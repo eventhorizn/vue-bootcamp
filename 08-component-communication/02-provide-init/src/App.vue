@@ -1,20 +1,9 @@
-<script setup>
-import ActiveElementVue from './components/ActiveElement.vue';
-import KnowledgeBaseVue from './components/KnowledgeBase.vue';
-</script>
-
-<template>
-  <div>
-    <ActiveElementVue
-      :topic-title="activeTopic && activeTopic.title"
-      :text="activeTopic && activeTopic.fullText"
-    />
-    <KnowledgeBaseVue />
-  </div>
-</template>
-
 <script>
+import ActiveElement from './components/ActiveElement.vue';
+import KnowledgeBase from './components/KnowledgeBase.vue';
+
 export default {
+  components: { ActiveElement, KnowledgeBase },
   data() {
     return {
       topics: [
@@ -60,6 +49,16 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <ActiveElement
+      :topic-title="activeTopic && activeTopic.title"
+      :text="activeTopic && activeTopic.fullText"
+    />
+    <KnowledgeBase />
+  </div>
+</template>
 
 <style>
 * {

@@ -1,7 +1,3 @@
-<template>
-	<span class="badge" :class="classes">{{ caption }}</span>
-</template>
-
 <script>
 	export default {
 		props: ['type', 'caption'],
@@ -15,6 +11,10 @@
 		},
 	};
 </script>
+
+<template>
+	<span class="badge" :class="classes">{{ caption }}</span>
+</template>
 
 <style scoped>
 	.badge {

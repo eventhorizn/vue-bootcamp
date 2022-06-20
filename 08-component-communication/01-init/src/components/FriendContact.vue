@@ -1,18 +1,3 @@
-<template>
-	<li>
-		<h2>{{ name }} {{ isFavorite ? '(Favorite)' : '' }}</h2>
-		<button @click="toggleFavorite">Toggle Favorite</button>
-		<button @click="toggleDetails">
-			‌{{ detailsAreVisible ? 'Hide' : 'Show' }} Details
-		</button>
-		<button @click="$emit('delete', id)">Delete</button>
-		<ul v-if="detailsAreVisible">
-			<li><strong>Phone:</strong> {{ phoneNumber }}</li>
-			<li><strong>Email:</strong> {{ emailAddress }}</li>
-		</ul>
-	</li>
-</template>
-
 <script>
 	export default {
 		//props: ['name', 'phoneNumber', 'emailAddress', 'isFavorite'],
@@ -71,3 +56,18 @@
 		},
 	};
 </script>
+
+<template>
+	<li>
+		<h2>{{ name }} {{ isFavorite ? '(Favorite)' : '' }}</h2>
+		<button @click="toggleFavorite">Toggle Favorite</button>
+		<button @click="toggleDetails">
+			‌{{ detailsAreVisible ? 'Hide' : 'Show' }} Details
+		</button>
+		<button @click="$emit('delete', id)">Delete</button>
+		<ul v-if="detailsAreVisible">
+			<li><strong>Phone:</strong> {{ phoneNumber }}</li>
+			<li><strong>Email:</strong> {{ emailAddress }}</li>
+		</ul>
+	</li>
+</template>

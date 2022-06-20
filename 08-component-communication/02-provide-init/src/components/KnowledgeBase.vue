@@ -1,14 +1,15 @@
-<script setup>
-import KnowledgeGridVue from './KnowledgeGrid.vue';
+<script>
+import KnowledgeGrid from './KnowledgeGrid.vue';
+export default {
+  components: {
+    KnowledgeGrid,
+  },
+};
 </script>
 
 <template>
   <section>
     <h2>Select a Topic</h2>
-    <KnowledgeGridVue />
+    <KnowledgeGrid />
   </section>
 </template>
-
-<script>
-export default {};
-</script>

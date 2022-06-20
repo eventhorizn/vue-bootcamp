@@ -1,34 +1,12 @@
-<script setup>
+<script>
 	import FriendContact from './components/FriendContact.vue';
 	import NewFriend from './components/NewFriend.vue';
-</script>
 
-<template>
-	<section>
-		<header>
-			<h1>My Friends</h1>
-		</header>
-
-		<NewFriend @add-contact="addContact" />
-
-		<ul>
-			<FriendContact
-				v-for="friend in friends"
-				:key="friend.id"
-				:id="friend.id"
-				:name="friend.name"
-				:phone-number="friend.phone"
-				:email-address="friend.email"
-				:is-favorite="friend.isFavorite"
-				@toggle-favorite="toggleFavoriteStatus"
-				@delete="deleteContact"
-			/>
-		</ul>
-	</section>
-</template>
-
-<script>
 	export default {
+		components: {
+			FriendContact,
+			NewFriend,
+		},
 		data() {
 			return {
 				friends: [
@@ -71,6 +49,30 @@
 		},
 	};
 </script>
+
+<template>
+	<section>
+		<header>
+			<h1>My Friends</h1>
+		</header>
+
+		<NewFriend @add-contact="addContact" />
+
+		<ul>
+			<FriendContact
+				v-for="friend in friends"
+				:key="friend.id"
+				:id="friend.id"
+				:name="friend.name"
+				:phone-number="friend.phone"
+				:email-address="friend.email"
+				:is-favorite="friend.isFavorite"
+				@toggle-favorite="toggleFavoriteStatus"
+				@delete="deleteContact"
+			/>
+		</ul>
+	</section>
+</template>
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
