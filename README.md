@@ -943,3 +943,60 @@ If you reference the component that has the slots, but not the slot itself, it w
 	<p>{{ slotProps['anotherProp'] }}</p>
 </CourseGoals>
 ```
+
+## Dynamic Components
+
+This allows us to load a component based on defined logic:
+
+```vue
+<script setup>
+	import TheHeader from './components/TheHeader.vue';
+	import ActiveGoals from './components/ActiveGoals.vue';
+	import ManageGoals from './components/ManageGoals.vue';
+</script>
+
+<template>
+	<div>
+		<TheHeader />
+		<button @click="setSelectedComponent('ActiveGoals')">Active Goals</button>
+		<button @click="setSelectedComponent('ManageGoals')">Manage Goals</button>
+
+		<component :is="selectedComponent"></component>
+	</div>
+</template>
+
+<script>
+	export default {
+		components: {
+			ActiveGoals,
+			ManageGoals,
+		},
+		data() {
+			return {
+				selectedComponent: 'ActiveGoals',
+				activeUser: {
+					name: 'Gary Hake',
+					description: 'Site owner and admin',
+					role: 'admin',
+				},
+			};
+		},
+		methods: {
+			setSelectedComponent(cmp) {
+				this.selectedComponent = cmp;
+			},
+		},
+	};
+</script>
+```
+
+- Usually you don't have to reference you components in the component section in the `script`
+- But since we are referencing these by string, we need to
+
+### Keep Dynamic Components Alive
+
+```vue
+<KeepAlive>
+	<component :is="selectedComponent"></component>
+</KeepAlive>
+```
