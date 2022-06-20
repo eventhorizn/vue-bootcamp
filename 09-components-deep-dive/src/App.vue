@@ -1,5 +1,5 @@
 <script setup>
-	import TheHeader from './components/TheHeader.vue';
+	import TheHeader from './components/layout/TheHeader.vue';
 	import ActiveGoals from './components/ActiveGoals.vue';
 	import ManageGoals from './components/ManageGoals.vue';
 	// import BadgeList from './components/BadgeList.vue';

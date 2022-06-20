@@ -1000,3 +1000,19 @@ This allows us to load a component based on defined logic:
 	<component :is="selectedComponent"></component>
 </KeepAlive>
 ```
+
+## Teleport
+
+Warnings and Errors should be at the top of an html page.
+
+Teleport allows you to move an element:
+
+```vue
+<Teleport to="body">
+	<ErrorAlert v-if="inputIsInvalid">
+		<h2>Input is Invalid!</h2>
+		<p>Please enter at least a few characters</p>
+		<button @click="confirmError">Ok</button>
+	</ErrorAlert>
+</Teleport>
+```
