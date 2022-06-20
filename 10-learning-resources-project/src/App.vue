@@ -1,6 +1,7 @@
 <script setup>
 	import { ref } from 'vue';
 	import StoredResources from './components/learning-resources/StoredResources.vue';
+	import TheHeader from './components/layouts/TheHeader.vue';
 
 	const storedResources = ref([
 		{
@@ -18,7 +19,10 @@
 	]);
 </script>
 
-<template><StoredResources :resources="storedResources" /></template>
+<template>
+	<TheHeader title="Remember Me" />
+	<StoredResources :resources="storedResources" />
+</template>
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
