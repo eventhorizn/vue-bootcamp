@@ -1,19 +1,47 @@
 <script setup>
 	import BaseCard from '../ui/BaseCard.vue';
 	import BaseButton from '../ui/BaseButton.vue';
+	import BaseDialog from '../ui/BaseDialog.vue';
 	import { inject, ref } from 'vue';
 
 	const titleInput = ref('');
 	const descInput = ref('');
 	const linkInput = ref('');
+	const inputIsInvalid = ref(false);
 
 	const addResource = inject('addResource');
 	const submitData = () => {
-		addResource(titleInput.value, descInput.value, linkInput.value);
+		const enteredTitle = titleInput.value;
+		const enteredDescription = descInput.value;
+		const enteredUrl = linkInput.value;
+
+		if (
+			enteredTitle.trim() === '' ||
+			enteredDescription.trim() === '' ||
+			enteredUrl.trim() === ''
+		) {
+			inputIsInvalid.value = true;
+			return;
+		}
+
+		addResource(enteredTitle, enteredDescription, enteredUrl);
+	};
+
+	const confirmError = () => {
+		inputIsInvalid.value = false;
 	};
 </script>
 
 <template>
+	<BaseDialog v-if="inputIsInvalid" title="Invalid Input" @close="confirmError">
+		<template #default>
+			<p>Unfortunately, at least one input value is invalid</p>
+			<p>Please check all inputs</p>
+		</template>
+		<template #actions>
+			<BaseButton @click="confirmError">Ok</BaseButton>
+		</template>
+	</BaseDialog>
 	<BaseCard>
 		<form @submit.prevent="submitData">
 			<div class="form-control">
