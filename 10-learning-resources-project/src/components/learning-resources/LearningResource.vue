@@ -1,5 +1,6 @@
 <script setup>
 	import BaseCard from '../ui/BaseCard.vue';
+	import BaseButton from '../ui/BaseButton.vue';
 	defineProps(['title', 'description', 'link']);
 </script>
 
@@ -8,7 +9,7 @@
 		<BaseCard>
 			<header>
 				<h3>{{ title }}</h3>
-				<button>Delete</button>
+				<BaseButton mode="flat">Delete</BaseButton>
 			</header>
 
 			<p>{{ description }}</p>
