@@ -4,6 +4,7 @@
 	import StoredResources from './StoredResources.vue';
 	import AddResource from './AddResource.vue';
 	import { ref, provide, shallowRef } from 'vue';
+	import { computed } from '@vue/reactivity';
 
 	const storedResources = ref([
 		{
@@ -25,14 +26,26 @@
 	const setSelectedTab = (tab) => {
 		selectedTab.value = tab;
 	};
+
+	const storedResButtonMode = computed(() => {
+		return selectedTab.value === StoredResources ? null : 'flat';
+	});
+	const addResButtonMode = computed(() => {
+		return selectedTab.value === AddResource ? null : 'flat';
+	});
 </script>
 
 <template>
 	<BaseCard>
-		<BaseButton @click="setSelectedTab(StoredResources)">
+		<BaseButton
+			@click="setSelectedTab(StoredResources)"
+			:mode="storedResButtonMode"
+		>
 			Stored Resources
 		</BaseButton>
-		<BaseButton @click="setSelectedTab(AddResource)"> Add Resource </BaseButton>
+		<BaseButton @click="setSelectedTab(AddResource)" :mode="addResButtonMode">
+			Add Resource
+		</BaseButton>
 	</BaseCard>
 	<component :is="selectedTab"></component>
 </template>
