@@ -1,7 +1,12 @@
 <script setup>
 	import BaseCard from '../ui/BaseCard.vue';
 	import BaseButton from '../ui/BaseButton.vue';
-	defineProps(['title', 'description', 'link']);
+
+	defineProps({
+		title: String,
+		description: String,
+		link: String,
+	});
 </script>
 
 <template>

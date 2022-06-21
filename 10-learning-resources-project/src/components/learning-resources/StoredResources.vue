@@ -1,7 +1,8 @@
 <script setup>
+	import { inject } from 'vue';
 	import LearningResource from './LearningResource.vue';
 
-	defineProps(['resources']);
+	const resources = inject('resources');
 </script>
 
 <template>
