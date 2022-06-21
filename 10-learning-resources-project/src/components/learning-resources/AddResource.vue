@@ -1,22 +1,37 @@
 <script setup>
 	import BaseCard from '../ui/BaseCard.vue';
 	import BaseButton from '../ui/BaseButton.vue';
+	import { inject, ref } from 'vue';
+
+	const titleInput = ref('');
+	const descInput = ref('');
+	const linkInput = ref('');
+
+	const addResource = inject('addResource');
+	const submitData = () => {
+		addResource(titleInput.value, descInput.value, linkInput.value);
+	};
 </script>
 
 <template>
 	<BaseCard>
-		<form>
+		<form @submit.prevent="submitData">
 			<div class="form-control">
 				<label for="title">Title</label>
-				<input type="text" name="title" id="title" />
+				<input type="text" name="title" id="title" v-model="titleInput" />
 			</div>
 			<div class="form-control">
 				<label for="description">Description</label>
-				<textarea name="description" id="description" rows="3"></textarea>
+				<textarea
+					name="description"
+					id="description"
+					rows="3"
+					v-model="descInput"
+				></textarea>
 			</div>
 			<div class="form-control">
 				<label for="link">Link</label>
-				<input type="url" name="link" id="title" />
+				<input type="url" name="link" id="title" v-model="linkInput" />
 			</div>
 			<div>
 				<BaseButton type="submit">Add Resourse</BaseButton>

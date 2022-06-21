@@ -33,6 +33,18 @@
 	const addResButtonMode = computed(() => {
 		return selectedTab.value === AddResource ? null : 'flat';
 	});
+
+	provide('addResource', (title, description, url) => {
+		const newResource = {
+			id: new Date().toISOString(),
+			title,
+			description,
+			link: url,
+		};
+
+		storedResources.value.unshift(newResource);
+		selectedTab.value = StoredResources;
+	});
 </script>
 
 <template>
@@ -47,5 +59,7 @@
 			Add Resource
 		</BaseButton>
 	</BaseCard>
-	<component :is="selectedTab"></component>
+	<KeepAlive>
+		<component :is="selectedTab"></component>
+	</KeepAlive>
 </template>
