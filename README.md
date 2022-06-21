@@ -1016,3 +1016,17 @@ Teleport allows you to move an element:
 	</ErrorAlert>
 </Teleport>
 ```
+
+# Forms
+
+- Big takeaway, use `v-model` over `refs`
+
+```vue
+<div class="form-control">
+	<label for="age">Your Age (Years)</label>
+	<input id="age" name="age" type="number" v-model="userAge" />
+</div>
+```
+
+- This will cause string problems if you use `ref`
+- Can also make it specific to a type like so: `v-model.number=""`
