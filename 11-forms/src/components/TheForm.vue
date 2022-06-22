@@ -1,27 +1,58 @@
 <script setup>
 	import { ref } from 'vue';
+	import RatingControl from './RatingControl.vue';
 
 	const userName = ref(''); // input
 	const userAge = ref(null); // number input
 	const referrer = ref('wom'); // dropdown
-	const interest = ref(null); // checkbox
+	const interest = ref([]); // multiple checkbox
 	const how = ref(null); // radio
+	const confirm = ref(false); // single checkbox
+	const rating = ref(null);
+	const userNameValidity = ref('pending');
+
+	const validateInput = () => {
+		if (userName.value.trim() === '') {
+			userNameValidity.value = 'invalid';
+		} else {
+			userNameValidity.value = 'valid';
+		}
+	};
 
 	const submitForm = () => {
 		console.log(userName.value);
 		console.log(userAge.value);
 		console.log(referrer.value);
+		console.log(interest.value);
+		console.log(how.value);
+		console.log(confirm.value);
+		console.log(rating.value);
+
 		userName.value = '';
 		userAge.value = null;
 		referrer.value = 'wom';
+		interest.value = [];
+		how.value = null;
+		confirm.value = false;
+		rating.value = null;
 	};
 </script>
 
 <template>
 	<form @submit.prevent="submitForm">
-		<div class="form-control">
+		<div
+			class="form-control"
+			:class="{ invalid: userNameValidity === 'invalid' }"
+		>
 			<label for="user-name">Your Name</label>
-			<input id="user-name" name="user-name" type="text" v-model="userName" />
+			<input
+				id="user-name"
+				name="user-name"
+				type="text"
+				v-model="userName"
+				@blur="validateInput"
+			/>
+			<p v-if="userNameValidity === 'invalid'">Please enter a valid name</p>
 		</div>
 		<div class="form-control">
 			<label for="age">Your Age (Years)</label>
@@ -42,6 +73,7 @@
 					id="interest-news"
 					name="interest"
 					type="checkbox"
+					value="news"
 					v-model="interest"
 				/>
 				<label for="interest-news">News</label>
@@ -51,6 +83,7 @@
 					id="interest-tutorials"
 					name="interest"
 					type="checkbox"
+					value="tutorials"
 					v-model="interest"
 				/>
 				<label for="interest-tutorials">Tutorials</label>
@@ -60,6 +93,7 @@
 					id="interest-nothing"
 					name="interest"
 					type="checkbox"
+					value="nothing"
 					v-model="interest"
 				/>
 				<label for="interest-nothing">Nothing</label>
@@ -68,17 +102,47 @@
 		<div class="form-control">
 			<h2>How do you learn?</h2>
 			<div>
-				<input id="how-video" name="how" type="radio" v-model="how" />
+				<input
+					id="how-video"
+					name="how"
+					type="radio"
+					value="video"
+					v-model="how"
+				/>
 				<label for="how-video">Video Courses</label>
 			</div>
 			<div>
-				<input id="how-blogs" name="how" type="radio" v-model="how" />
+				<input
+					id="how-blogs"
+					name="how"
+					type="radio"
+					value="blogs"
+					v-model="how"
+				/>
 				<label for="how-blogs">Blogs</label>
 			</div>
 			<div>
-				<input id="how-other" name="how" type="radio" v-model="how" />
+				<input
+					id="how-other"
+					name="how"
+					type="radio"
+					value="other"
+					v-model="how"
+				/>
 				<label for="how-other">Other</label>
 			</div>
+		</div>
+		<div class="form-control">
+			<RatingControl v-model="rating" />
+		</div>
+		<div class="form-control">
+			<input
+				type="checkbox"
+				id="confirm-terms"
+				name="confirm-terms"
+				v-model="confirm"
+			/>
+			<label for="confirm-terms">Agree to terms of use?</label>
 		</div>
 		<div>
 			<button>Save Data</button>
@@ -98,6 +162,14 @@
 
 	.form-control {
 		margin: 0.5rem 0;
+	}
+
+	.form-control.invalid input {
+		border-color: red;
+	}
+
+	.form-control.invalid label {
+		color: red;
 	}
 
 	label {
