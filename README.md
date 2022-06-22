@@ -1030,3 +1030,15 @@ Teleport allows you to move an element:
 
 - This will cause string problems if you use `ref`
 - Can also make it specific to a type like so: `v-model.number=""`
+
+# Sending Http requests
+
+NOTE: The Vue Code on this section (section 12) is using the Options pattern
+
+I wanted to have some examples of options
+
+1. We need a backend, but we aren't going to build our own
+1. We are going to use [Firebase](https://console.firebase.google.com/u/0/?pli=1) as a our backend
+1. We are going to build a Realtime datababase
+   - Easier to use and comes with an api
+   - Starting in test mode (no auth)
