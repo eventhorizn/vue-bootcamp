@@ -1042,3 +1042,5 @@ I wanted to have some examples of options
 1. We are going to build a Realtime datababase
    - Easier to use and comes with an api
    - Starting in test mode (no auth)
+
+# Routing: "Multi-Page" SPAs
