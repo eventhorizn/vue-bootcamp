@@ -2,7 +2,7 @@
 	import { inject } from 'vue';
 	import TeamsItem from './TeamsItem.vue';
 
-	inject('teams');
+	const teams = inject('teams');
 </script>
 
 <template>

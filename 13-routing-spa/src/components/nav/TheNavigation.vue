@@ -2,9 +2,9 @@
 	import TeamsList from '../teams/TeamsList.vue';
 	import UsersList from '../users/UsersList.vue';
 
-	defineEmits('setPage');
+	const emit = defineEmits(['setPage']);
 	const setActivePage = (page) => {
-		$emit('setPage', page);
+		emit('setPage', page);
 	};
 </script>
 

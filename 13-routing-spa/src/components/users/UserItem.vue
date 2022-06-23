@@ -1,12 +1,12 @@
 <script setup>
 	import { computed } from '@vue/reactivity';
 
-	defineProps({ name: String, role: String });
+	const props = defineProps({ name: String, role: String });
 
 	const roleClass = computed(() => {
-		if (role === 'Engineer') {
+		if (props.role === 'Engineer') {
 			return 'role--engineer';
-		} else if (role === 'Consultant') {
+		} else if (props.role === 'Consultant') {
 			return 'role--consultant';
 		} else {
 			return null;

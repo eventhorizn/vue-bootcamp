@@ -1,9 +1,9 @@
 <script setup>
-	import { ref, provide } from 'vue';
+	import { ref, provide, shallowRef } from 'vue';
 	import TheNavigation from './components/nav/TheNavigation.vue';
 	import TeamsList from './components/teams/TeamsList.vue';
 
-	const activePage = ref(TeamsList);
+	const activePage = shallowRef(TeamsList);
 	const teams = ref([
 		{ id: 't1', name: 'Frontend Engineers', members: ['u1', 'u2'] },
 		{ id: 't2', name: 'Backend Engineers', members: ['u1', 'u2', 'u3'] },
@@ -26,7 +26,7 @@
 </script>
 
 <template>
-	<TheNavigation @set-page="setActivePage" />
+	<TheNavigation @setPage="setActivePage" />
 	<main>
 		<component :is="activePage"></component>
 	</main>
