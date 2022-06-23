@@ -1,12 +1,26 @@
 <script setup>
-	import { ref } from 'vue';
+	import { inject, ref } from 'vue';
+	import { useRoute } from 'vue-router';
 	import UserItem from '../users/UserItem.vue';
 
-	const teamName = ref('Test');
-	const members = ref([
-		{ id: 'u1', fullName: 'Max Schwarz', role: 'Engineer' },
-		{ id: 'u2', fullName: 'Max Schwarz', role: 'Engineer' },
-	]);
+	const teamName = ref('');
+	const members = ref([]);
+
+	const teams = inject('teams');
+	const users = inject('users');
+	const route = useRoute();
+
+	const teamId = route.params.teamId;
+	const selectedTeam = teams.find((x) => x.id === teamId);
+	const stMembers = selectedTeam.members;
+	const selectedMembers = [];
+	for (const member of stMembers) {
+		const selectedUser = users.find((x) => x.id === member);
+		selectedMembers.push(selectedUser);
+	}
+
+	members.value = selectedMembers;
+	teamName.value = selectedTeam.name;
 </script>
 
 <template>

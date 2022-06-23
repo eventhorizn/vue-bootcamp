@@ -1,12 +1,18 @@
 <script setup>
-	defineProps({ name: String, memberCount: Number });
+	import { computed } from '@vue/reactivity';
+
+	const props = defineProps({ id: String, name: String, memberCount: Number });
+
+	const teamMembersLink = computed(() => {
+		return '/teams/' + props.id;
+	});
 </script>
 
 <template>
 	<li>
 		<h3>{{ name }}</h3>
 		<div class="team-members">{{ memberCount }} Members</div>
-		<a href="#">View Members</a>
+		<RouterLink :to="teamMembersLink">View Members</RouterLink>
 	</li>
 </template>
 

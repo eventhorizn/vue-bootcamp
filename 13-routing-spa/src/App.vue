@@ -15,8 +15,8 @@
 		{ id: 'u5', fullName: 'Marie Smith', role: 'Consultant' },
 	]);
 
-	provide('teams', teams);
-	provide('users', users);
+	provide('teams', teams.value);
+	provide('users', users.value);
 </script>
 
 <template>

@@ -1113,3 +1113,38 @@ I wanted to have some examples of options
    - This allows us to navigate from code
 
 ## Passing Data with Route Params
+
+1. Define the route
+   ```js
+   	routes: [
+   	{ path: '/teams/:teamId', component: TeamMembers },
+   ],
+   ```
+   - Denoted by a `:`
+1. Set up the route dynamically
+
+   ```vue
+   <script setup>
+   	import { computed } from '@vue/reactivity';
+
+   	const props = defineProps({
+   		id: String,
+   		name: String,
+   		memberCount: Number,
+   	});
+
+   	const teamMembersLink = computed(() => {
+   		return '/teams/' + props.id;
+   	});
+   </script>
+
+   <template>
+   	<li>
+   		<h3>{{ name }}</h3>
+   		<div class="team-members">{{ memberCount }} Members</div>
+   		<RouterLink :to="teamMembersLink">View Members</RouterLink>
+   	</li>
+   </template>
+   ```
+
+   - RouterLink is where we are dynamically building the route
