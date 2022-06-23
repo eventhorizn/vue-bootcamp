@@ -1052,3 +1052,64 @@ I wanted to have some examples of options
    npm install --save vue-router
    ```
    - Official package from vue team: [Link](https://router.vuejs.org/api/)
+1. main.js setup
+
+   ```js
+   import { createApp } from 'vue';
+   import { createRouter, createWebHistory } from 'vue-router';
+   import App from './App.vue';
+   import TeamsList from './components/teams/TeamsList.vue';
+   import UsersList from './components/users/UsersList.vue';
+
+   const router = createRouter({
+   	history: createWebHistory(),
+   	routes: [
+   		{ path: '/teams', component: TeamsList },
+   		{ path: '/users', component: UsersList },
+   	],
+   });
+
+   const app = createApp(App);
+
+   app.use(router);
+
+   app.mount('#app');
+   ```
+
+## Using Routes
+
+1. On the template side, we will be using router components
+   ```vue
+   <template>
+   	<TheNavigation />
+   	<main>
+   		<RouterView></RouterView>
+   	</main>
+   </template>
+   ```
+   ```vue
+   <nav>
+   	<ul>
+   		<li>
+   			<RouterLink to="/teams">Teams</RouterLink>
+   		</li>
+   		<li>
+   			<RouterLink to="/users">Users</RouterLink>
+   		</li>
+   	</ul>
+   </nav>
+   ```
+1. Programatic Routing
+
+   ```js
+   import { useRouter } from 'vue-router';
+
+   const router = useRouter();
+   const confirmInput = () => {
+   	router.push('/teams');
+   };
+   ```
+
+   - This allows us to navigate from code
+
+## Passing Data with Route Params
