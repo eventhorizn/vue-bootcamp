@@ -1,5 +1,5 @@
 <script setup>
-	import { inject, ref } from 'vue';
+	import { inject, ref, watch } from 'vue';
 	import { useRoute } from 'vue-router';
 	import UserItem from '../users/UserItem.vue';
 
@@ -10,17 +10,27 @@
 	const users = inject('users');
 	const route = useRoute();
 
-	const teamId = route.params.teamId;
-	const selectedTeam = teams.find((x) => x.id === teamId);
-	const stMembers = selectedTeam.members;
-	const selectedMembers = [];
-	for (const member of stMembers) {
-		const selectedUser = users.find((x) => x.id === member);
-		selectedMembers.push(selectedUser);
-	}
+	const loadTeamMembers = (route) => {
+		const teamId = route.params.teamId;
+		const selectedTeam = teams.find((x) => x.id === teamId);
+		const stMembers = selectedTeam.members;
+		const selectedMembers = [];
+		for (const member of stMembers) {
+			const selectedUser = users.find((x) => x.id === member);
+			selectedMembers.push(selectedUser);
+		}
 
-	members.value = selectedMembers;
-	teamName.value = selectedTeam.name;
+		members.value = selectedMembers;
+		teamName.value = selectedTeam.name;
+	};
+
+	loadTeamMembers(route);
+
+	watch(route, (newRoute) => {
+		if (newRoute.params.teamId) {
+			loadTeamMembers(newRoute);
+		}
+	});
 </script>
 
 <template>
@@ -34,6 +44,7 @@
 				:role="member.role"
 			/>
 		</ul>
+		<RouterLink to="/teams/t2">Team 2</RouterLink>
 	</section>
 </template>
 
