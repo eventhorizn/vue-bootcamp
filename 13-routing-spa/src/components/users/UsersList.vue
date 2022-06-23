@@ -1,11 +1,19 @@
 <script setup>
 	import { inject } from 'vue';
+	import { useRouter } from 'vue-router';
 	import UserItem from './UserItem.vue';
 
 	const users = inject('users');
+
+	// Programmatic navigation
+	const router = useRouter();
+	const confirmInput = () => {
+		router.push('/teams');
+	};
 </script>
 
 <template>
+	<button @click="confirmInput">Confirm</button>
 	<ul>
 		<UserItem
 			v-for="user in users"

@@ -1044,3 +1044,11 @@ I wanted to have some examples of options
    - Starting in test mode (no auth)
 
 # Routing: "Multi-Page" SPAs
+
+## Routing Setup
+
+1. Install `vue-router`
+   ```
+   npm install --save vue-router
+   ```
+   - Official package from vue team: [Link](https://router.vuejs.org/api/)
