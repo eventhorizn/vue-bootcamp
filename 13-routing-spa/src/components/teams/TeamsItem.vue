@@ -4,7 +4,8 @@
 	const props = defineProps({ id: String, name: String, memberCount: Number });
 
 	const teamMembersLink = computed(() => {
-		return '/teams/' + props.id;
+		//return '/teams/' + props.id;
+		return { name: 'team-members', params: { teamId: props.id } };
 	});
 </script>
 

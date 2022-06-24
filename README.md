@@ -1215,3 +1215,98 @@ watch(route, (newRoute) => {
    ```
 1. The major weirdness is with the Watch
    - You have to pass in a function to the props.teamId
+
+## Redirecting and Catch All Routes
+
+Redirecting is very simple. It's defined in your main.js (route definition)
+
+Catch alls are simple too. Just make sure they are the last route defined
+
+```js
+const router = createRouter({
+	history: createWebHistory(),
+	routes: [
+		{ path: '/', redirect: '/teams' },
+		{ path: '/teams', component: TeamsList },
+		{ path: '/users', component: UsersList },
+		{ path: '/teams/:teamId', component: TeamMembers, props: true },
+		{ path: '/:notFound(.*)', component: NotFound },
+	],
+});
+```
+
+## Nested routes
+
+The idea with nested routes is it allows you to add children to a defined route
+
+```js
+const router = createRouter({
+	history: createWebHistory(),
+	routes: [
+		{ path: '/', redirect: '/teams' },
+		{
+			path: '/teams',
+			component: TeamsList,
+			children: [{ path: ':teamId', component: TeamMembers, props: true }],
+		},
+		{ path: '/users', component: UsersList },
+		{ path: '/:notFound(.*)', component: NotFound },
+	],
+});
+```
+
+You must add a RouterView to the parent component in order for the child routes to work:
+
+```vue
+<template>
+	<RouterView></RouterView>
+	<ul>
+		<TeamsItem
+			v-for="team in teams"
+			:key="team.id"
+			:id="team.id"
+			:name="team.name"
+			:member-count="team.members.length"
+		/>
+	</ul>
+</template>
+```
+
+## Named Routes
+
+```js
+const router = createRouter({
+	history: createWebHistory(),
+	routes: [
+		{ path: '/', redirect: '/teams' },
+		{
+			name: 'teams',
+			path: '/teams',
+			component: TeamsList,
+			children: [
+				{
+					name: 'team-members',
+					path: ':teamId',
+					component: TeamMembers,
+					props: true,
+				},
+			],
+		},
+		{ path: '/users', component: UsersList },
+		{ path: '/:notFound(.*)', component: NotFound },
+	],
+});
+```
+
+```vue
+<script setup>
+	import { computed } from '@vue/reactivity';
+
+	const props = defineProps({ id: String, name: String, memberCount: Number });
+
+	const teamMembersLink = computed(() => {
+		//return '/teams/' + props.id;
+		return { name: 'team-members', params: { teamId: props.id } };
+	});
+</script>
+```

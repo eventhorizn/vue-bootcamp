@@ -6,6 +6,7 @@
 </script>
 
 <template>
+	<RouterView></RouterView>
 	<ul>
 		<TeamsItem
 			v-for="team in teams"
