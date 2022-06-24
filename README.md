@@ -1053,7 +1053,6 @@ I wanted to have some examples of options
    ```
    - Official package from vue team: [Link](https://router.vuejs.org/api/)
 1. main.js setup
-
    ```js
    import { createApp } from 'vue';
    import { createRouter, createWebHistory } from 'vue-router';
@@ -1100,7 +1099,6 @@ I wanted to have some examples of options
    </nav>
    ```
 1. Programatic Routing
-
    ```js
    import { useRouter } from 'vue-router';
 
@@ -1109,7 +1107,6 @@ I wanted to have some examples of options
    	router.push('/teams');
    };
    ```
-
    - This allows us to navigate from code
 
 ## Passing Data with Route Params
@@ -1122,7 +1119,6 @@ I wanted to have some examples of options
    ```
    - Denoted by a `:`
 1. Set up the route dynamically
-
    ```vue
    <script setup>
    	import { computed } from '@vue/reactivity';
@@ -1146,7 +1142,6 @@ I wanted to have some examples of options
    	</li>
    </template>
    ```
-
    - RouterLink is where we are dynamically building the route
 
 ## Updating Params Data with Watchers
@@ -1171,40 +1166,52 @@ watch(route, (newRoute) => {
    - You can use it as a dynamic component and route to It
 1. With composition api, it's a bit funky to make it work
    - The idea is that you are using a props object instead of a route one
-	```vue
-	<script setup>
-		import { inject, ref, watch } from 'vue';
-		import UserItem from '../users/UserItem.vue';
+1. Update in main.js
+   ```js
+   const router = createRouter({
+   	history: createWebHistory(),
+   	routes: [
+   		{ path: '/teams', component: TeamsList },
+   		{ path: '/users', component: UsersList },
+   		{ path: '/teams/:teamId', component: TeamMembers, props: true },
+   	],
+   });
+   ```
+1. Component update
+   ```vue
+   <script setup>
+   	import { inject, ref, watch } from 'vue';
+   	import UserItem from '../users/UserItem.vue';
 
-		const props = defineProps({ teamId: String });
+   	const props = defineProps({ teamId: String });
 
-		const teamName = ref('');
-		const members = ref([]);
+   	const teamName = ref('');
+   	const members = ref([]);
 
-		const teams = inject('teams');
-		const users = inject('users');
-		const loadTeamMembers = (teamId) => {
-			const selectedTeam = teams.find((x) => x.id === teamId);
-			const stMembers = selectedTeam.members;
-			const selectedMembers = [];
-			for (const member of stMembers) {
-				const selectedUser = users.find((x) => x.id === member);
-				selectedMembers.push(selectedUser);
-			}
+   	const teams = inject('teams');
+   	const users = inject('users');
+   	const loadTeamMembers = (teamId) => {
+   		const selectedTeam = teams.find((x) => x.id === teamId);
+   		const stMembers = selectedTeam.members;
+   		const selectedMembers = [];
+   		for (const member of stMembers) {
+   			const selectedUser = users.find((x) => x.id === member);
+   			selectedMembers.push(selectedUser);
+   		}
 
-			members.value = selectedMembers;
-			teamName.value = selectedTeam.name;
-		};
+   		members.value = selectedMembers;
+   		teamName.value = selectedTeam.name;
+   	};
 
-		loadTeamMembers(props.teamId);
+   	loadTeamMembers(props.teamId);
 
-		watch(
-			() => props.teamId,
-			(newId) => {
-				loadTeamMembers(newId);
-			}
-		);
-	</script>
-	```
+   	watch(
+   		() => props.teamId,
+   		(newId) => {
+   			loadTeamMembers(newId);
+   		}
+   	);
+   </script>
+   ```
 1. The major weirdness is with the Watch
-	- You have to pass in a function to the props.teamId
+   - You have to pass in a function to the props.teamId
