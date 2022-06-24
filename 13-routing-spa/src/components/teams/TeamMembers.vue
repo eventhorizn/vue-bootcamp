@@ -1,17 +1,16 @@
 <script setup>
 	import { inject, ref, watch } from 'vue';
-	import { useRoute } from 'vue-router';
 	import UserItem from '../users/UserItem.vue';
+
+	const props = defineProps({ teamId: String });
 
 	const teamName = ref('');
 	const members = ref([]);
 
 	const teams = inject('teams');
 	const users = inject('users');
-	const route = useRoute();
-
-	const loadTeamMembers = (route) => {
-		const teamId = route.params.teamId;
+	const loadTeamMembers = (teamId) => {
+		//const teamId = route.params.teamId;
 		const selectedTeam = teams.find((x) => x.id === teamId);
 		const stMembers = selectedTeam.members;
 		const selectedMembers = [];
@@ -24,13 +23,14 @@
 		teamName.value = selectedTeam.name;
 	};
 
-	loadTeamMembers(route);
+	loadTeamMembers(props.teamId);
 
-	watch(route, (newRoute) => {
-		if (newRoute.params.teamId) {
-			loadTeamMembers(newRoute);
+	watch(
+		() => props.teamId,
+		(newId) => {
+			loadTeamMembers(newId);
 		}
-	});
+	);
 </script>
 
 <template>

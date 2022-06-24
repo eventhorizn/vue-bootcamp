@@ -1148,3 +1148,63 @@ I wanted to have some examples of options
    ```
 
    - RouterLink is where we are dynamically building the route
+
+## Updating Params Data with Watchers
+
+```js
+watch(route, (newRoute) => {
+	if (newRoute.params.teamId) {
+		loadTeamMembers(newRoute);
+	}
+});
+```
+
+- The idea is that we want to do a direct link to a route from a sibling
+  - It's easier to explain by example...
+  - Route from /teams/t1 to teams/t2
+- By itself, vue won't trigger a route update if you do a parallel route shift
+- But you can add a watch that will trigger whenever a route is added
+
+## Passing Params as Props
+
+1. This is the preferred way, since it makes your component more reusable
+   - You can use it as a dynamic component and route to It
+1. With composition api, it's a bit funky to make it work
+   - The idea is that you are using a props object instead of a route one
+	```vue
+	<script setup>
+		import { inject, ref, watch } from 'vue';
+		import UserItem from '../users/UserItem.vue';
+
+		const props = defineProps({ teamId: String });
+
+		const teamName = ref('');
+		const members = ref([]);
+
+		const teams = inject('teams');
+		const users = inject('users');
+		const loadTeamMembers = (teamId) => {
+			const selectedTeam = teams.find((x) => x.id === teamId);
+			const stMembers = selectedTeam.members;
+			const selectedMembers = [];
+			for (const member of stMembers) {
+				const selectedUser = users.find((x) => x.id === member);
+				selectedMembers.push(selectedUser);
+			}
+
+			members.value = selectedMembers;
+			teamName.value = selectedTeam.name;
+		};
+
+		loadTeamMembers(props.teamId);
+
+		watch(
+			() => props.teamId,
+			(newId) => {
+				loadTeamMembers(newId);
+			}
+		);
+	</script>
+	```
+1. The major weirdness is with the Watch
+	- You have to pass in a function to the props.teamId
