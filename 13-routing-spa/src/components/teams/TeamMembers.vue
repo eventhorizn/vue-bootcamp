@@ -1,8 +1,10 @@
 <script setup>
 	import { inject, ref, watch } from 'vue';
+	import { useRoute } from 'vue-router';
 	import UserItem from '../users/UserItem.vue';
 
 	const props = defineProps({ teamId: String });
+	const route = useRoute();
 
 	const teamName = ref('');
 	const members = ref([]);
@@ -24,6 +26,7 @@
 	};
 
 	loadTeamMembers(props.teamId);
+	console.log(route.query);
 
 	watch(
 		() => props.teamId,
@@ -67,3 +70,5 @@
 		padding: 0;
 	}
 </style>
+
+## Query Parameters

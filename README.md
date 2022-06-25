@@ -1310,3 +1310,86 @@ const router = createRouter({
 	});
 </script>
 ```
+
+## Query Parameters
+
+```js
+const teamMembersLink = computed(() => {
+	return {
+		name: 'team-members',
+		params: { teamId: props.id },
+		query: { sort: 'asc' },
+	};
+});
+```
+
+```js
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+console.log(route.query);
+```
+
+## Multiple Routes with Named Router Views
+
+This is very similar to slots
+
+Allows us to render specific components based on a route
+
+```js
+const router = createRouter({
+	history: createWebHistory(),
+	routes: [
+		{ path: '/', redirect: '/teams' },
+		{
+			name: 'teams',
+			path: '/teams',
+			components: { default: TeamsList, footer: TeamsFooter },
+			children: [
+				{
+					name: 'team-members',
+					path: ':teamId',
+					component: TeamMembers,
+					props: true,
+				},
+			],
+		},
+		{ path: '/users', components: { default: UsersList, footer: UsersFooter } },
+		{ path: '/:notFound(.*)', component: NotFound },
+	],
+});
+```
+
+- We use `components` instead of `component`
+- Just like slots, default is the un-named `RouterView`
+- Otherwise, we connect through the name
+
+```html
+<template>
+	<TheNavigation />
+	<main>
+		<RouterView></RouterView>
+	</main>
+	<footer>
+		<RouterView name="footer"></RouterView>
+	</footer>
+</template>
+```
+
+## Scroll Behavior
+
+Allows us to save exact position, or change position dynamically
+
+`main.js` Route definition
+
+```js
+scrollBehavior(to, from, savedPosition) {
+	console.log(to, from, savedPosition);
+
+	if (savedPosition) {
+		return savedPosition;
+	}
+
+	return { left: 0, top: 0 };
+},
+```

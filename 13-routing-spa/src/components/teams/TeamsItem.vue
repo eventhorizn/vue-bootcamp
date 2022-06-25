@@ -5,7 +5,11 @@
 
 	const teamMembersLink = computed(() => {
 		//return '/teams/' + props.id;
-		return { name: 'team-members', params: { teamId: props.id } };
+		return {
+			name: 'team-members',
+			params: { teamId: props.id },
+			query: { sort: 'asc' },
+		};
 	});
 </script>
 
