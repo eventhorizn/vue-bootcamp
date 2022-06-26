@@ -1393,3 +1393,11 @@ scrollBehavior(to, from, savedPosition) {
 	return { left: 0, top: 0 };
 },
 ```
+
+## Navigation Guards
+
+Allows you to do some manual checks when changing routes
+
+There seems to be some nonesense around composition api and vue router
+
+[Official Link](https://router.vuejs.org/guide/advanced/composition-api.html#navigation-guards)

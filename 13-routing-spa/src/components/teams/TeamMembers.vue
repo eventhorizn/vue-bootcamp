@@ -1,3 +1,13 @@
+<script>
+	export default {
+		beforeRouteUpdate(to, from, next) {
+			console.log('TeamMembers Cmp beforeRouteUpdate');
+			console.log(to, from);
+			next();
+		},
+	};
+</script>
+
 <script setup>
 	import { inject, ref, watch } from 'vue';
 	import { useRoute } from 'vue-router';
