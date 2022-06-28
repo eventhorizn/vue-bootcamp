@@ -1,10 +1,10 @@
 <script setup>
-	defineEmits('close');
+	const emit = defineEmits(['close']);
 	defineProps({ open: Boolean });
 </script>
 
 <template>
-	<div v-if="open" class="backdrop" @click="$emit('close')"></div>
+	<div v-if="open" class="backdrop" @click="emit('close')"></div>
 	<Transition name="modal">
 		<dialog open v-if="open">
 			<slot></slot>

@@ -1451,9 +1451,9 @@ This element adds specific class at specific times
 - Notice the name
 
 ```
-<transition name="para">
+<Transition name="para">
 	<p v-if="paraIsVisible">This is only sometimes visible...</p>
-</transition>
+</Transition>
 ```
 
 ```css
@@ -1471,7 +1471,11 @@ This element adds specific class at specific times
 - You can also replace the class w/ custom classes completely
 
 ```
-<transition enter-to-class="some-class">
+<Transition enter-to-class="some-class">
 	<p v-if="paraIsVisible">This is only sometimes visible...</p>
-</transition>
+</Transition>
 ```
+
+- **NOTE**
+	- Transition can only work when it has one root element within it
+	- This also works if you have elements controlled by `v-if`

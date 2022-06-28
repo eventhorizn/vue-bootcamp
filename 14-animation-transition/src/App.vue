@@ -5,6 +5,7 @@
 	const dialogIsVisible = ref(false);
 	const animatedBlock = ref(false);
 	const paraIsVisible = ref(false);
+	const usersAreVisible = ref(false);
 
 	const showDialog = () => {
 		dialogIsVisible.value = true;
@@ -21,6 +22,38 @@
 	const toggleParagraph = () => {
 		paraIsVisible.value = !paraIsVisible.value;
 	};
+
+	const showUsers = () => {
+		usersAreVisible.value = true;
+	};
+
+	const hideUsers = () => {
+		usersAreVisible.value = false;
+	};
+
+	const beforeEnter = (e) => {
+		console.log('beforeEnter', e);
+	};
+
+	const beforeLeave = (e) => {
+		console.log('beforeLeave', e);
+	};
+
+	const enter = (e) => {
+		console.log('enter', e);
+	};
+
+	const afterEnter = (e) => {
+		console.log('afterEnter', e);
+	};
+
+	const leave = (e) => {
+		console.log('leave', e);
+	};
+
+	const afterLeave = (e) => {
+		console.log('afterLeave', e);
+	};
 </script>
 
 <template>
@@ -30,11 +63,26 @@
 	</div>
 
 	<div class="container">
-		<transition name="para" enter-to-class="some-class">
+		<transition
+			name="para"
+			@before-enter="beforeEnter"
+			@before-leave="beforeLeave"
+			@enter="enter"
+			@after-enter="afterEnter"
+			@leave="leave"
+			@after-leave="afterLeave"
+		>
 			<p v-if="paraIsVisible">This is only sometimes visible...</p>
 		</transition>
 
 		<button @click="toggleParagraph">Toggle Paragraph</button>
+	</div>
+
+	<div class="container">
+		<Transition name="fade-button" mode="out-in">
+			<button @click="showUsers" v-if="!usersAreVisible">Show Users</button>
+			<button @click="hideUsers" v-else>Hide Users</button>
+		</Transition>
 	</div>
 
 	<BaseModal @close="hideDialog" :open="dialogIsVisible">
@@ -101,19 +149,9 @@
 		animation: slide-scale 0.3s ease-out forwards;
 	}
 
-	.para-enter-from {
-		/* opacity: 0;
-		transform: translateY(-30px); */
-	}
-
 	.para-enter-active {
 		/* transition: all 0.3s ease-out; */
 		animation: slide-scale 0.3s ease-out;
-	}
-
-	.para-enter-to {
-		/* opacity: 1;
-		transform: translateY(0); */
 	}
 
 	.para-leave-from {
@@ -128,6 +166,24 @@
 	.para-leave-to {
 		opacity: 0;
 		transform: translateY(30px);
+	}
+
+	.fade-button-enter-from,
+	.fade-button-leave-to {
+		opacity: 0;
+	}
+
+	.fade-button-enter-active {
+		transition: opacity 0.3s ease-out;
+	}
+
+	.fade-button-leave-active {
+		transition: opacity 0.3s ease-in;
+	}
+
+	.fade-button-enter-to,
+	.fade-button-leave-from {
+		opacity: 1;
 	}
 
 	@keyframes slide-scale {
