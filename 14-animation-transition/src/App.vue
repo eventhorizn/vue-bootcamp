@@ -30,14 +30,14 @@
 	</div>
 
 	<div class="container">
-		<transition>
+		<transition name="para" enter-to-class="some-class">
 			<p v-if="paraIsVisible">This is only sometimes visible...</p>
 		</transition>
 
 		<button @click="toggleParagraph">Toggle Paragraph</button>
 	</div>
 
-	<BaseModal @close="hideDialog" v-if="dialogIsVisible">
+	<BaseModal @close="hideDialog" :open="dialogIsVisible">
 		<p>This is a test dialog!</p>
 		<button @click="hideDialog">Close it!</button>
 	</BaseModal>
@@ -98,10 +98,39 @@
 
 	.animate {
 		/* transform: translateX(-150px); */
-		animation: slide-fade 0.3s ease-out forwards;
+		animation: slide-scale 0.3s ease-out forwards;
 	}
 
-	@keyframes slide-fade {
+	.para-enter-from {
+		/* opacity: 0;
+		transform: translateY(-30px); */
+	}
+
+	.para-enter-active {
+		/* transition: all 0.3s ease-out; */
+		animation: slide-scale 0.3s ease-out;
+	}
+
+	.para-enter-to {
+		/* opacity: 1;
+		transform: translateY(0); */
+	}
+
+	.para-leave-from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.para-leave-active {
+		transition: all 0.3s ease-in;
+	}
+
+	.para-leave-to {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+
+	@keyframes slide-scale {
 		0% {
 			transform: translateX(0) scale(1);
 		}

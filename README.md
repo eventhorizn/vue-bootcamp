@@ -1401,3 +1401,77 @@ Allows you to do some manual checks when changing routes
 There seems to be some nonesense around composition api and vue router
 
 [Official Link](https://router.vuejs.org/guide/advanced/composition-api.html#navigation-guards)
+
+# Animation and Transitions
+
+- In general we use css to do animations and Transitions
+- Vue comes w/ some built in functionality to help
+
+```vue
+<transition>
+	<p v-if="paraIsVisible">This is only sometimes visible...</p>
+</transition>
+```
+
+This element adds specific class at specific times
+
+
+```css
+.v-enter-from {
+	opacity: 0;
+	transform: translateY(-30px);
+}
+
+.v-enter-active {
+	transition: all 0.3s ease-out;
+}
+
+.v-enter-to {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.v-leave-from {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.v-leave-active {
+	transition: all 0.3s ease-in;
+}
+
+.v-leave-to {
+	opacity: 0;
+	transform: translateY(30px);
+}
+```
+
+- By default, vue uses the same transitions on every element by default
+- You can name them with custom names
+- Notice the name
+
+```
+<transition name="para">
+	<p v-if="paraIsVisible">This is only sometimes visible...</p>
+</transition>
+```
+
+```css
+.para-enter-from {
+	/* opacity: 0;
+	transform: translateY(-30px); */
+}
+
+.para-enter-active {
+	/* transition: all 0.3s ease-out; */
+	animation: slide-scale 0.3s ease-out;
+}
+```
+
+- You can also replace the class w/ custom classes completely
+
+```
+<transition enter-to-class="some-class">
+	<p v-if="paraIsVisible">This is only sometimes visible...</p>
+</transition>
+```

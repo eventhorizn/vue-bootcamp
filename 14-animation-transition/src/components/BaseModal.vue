@@ -1,12 +1,15 @@
 <script setup>
 	defineEmits('close');
+	defineProps({ open: Boolean });
 </script>
 
 <template>
-	<div class="backdrop" @click="$emit('close')"></div>
-	<dialog open>
-		<slot></slot>
-	</dialog>
+	<div v-if="open" class="backdrop" @click="$emit('close')"></div>
+	<Transition name="modal">
+		<dialog open v-if="open">
+			<slot></slot>
+		</dialog>
+	</Transition>
 </template>
 
 <style scoped>
@@ -32,7 +35,15 @@
 		background-color: white;
 		z-index: 100;
 		border: none;
-		animation: modal 0.3s ease-out forwards;
+		/* animation: modal 0.3s ease-out forwards; */
+	}
+
+	.modal-enter-active {
+		animation: modal 0.3s ease-out;
+	}
+
+	.modal-leave-active {
+		animation: modal 0.3s ease-in reverse;
 	}
 
 	@keyframes modal {
