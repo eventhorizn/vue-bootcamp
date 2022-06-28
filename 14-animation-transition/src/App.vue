@@ -6,6 +6,8 @@
 	const animatedBlock = ref(false);
 	const paraIsVisible = ref(false);
 	const usersAreVisible = ref(false);
+	const enterInterval = ref(null);
+	const leaveInterval = ref(null);
 
 	const showDialog = () => {
 		dialogIsVisible.value = true;
@@ -33,26 +35,62 @@
 
 	const beforeEnter = (e) => {
 		console.log('beforeEnter', e);
+		e.style.opacity = 0;
 	};
 
 	const beforeLeave = (e) => {
 		console.log('beforeLeave', e);
+		e.style.opacity = 1;
 	};
 
-	const enter = (e) => {
+	const enter = (e, done) => {
 		console.log('enter', e);
+
+		let round = 1;
+
+		enterInterval.value = setInterval(() => {
+			e.style.opacity = round * 0.1;
+			round++;
+
+			if (round > 10) {
+				clearInterval(enterInterval.value);
+				done();
+			}
+		}, 20);
 	};
 
 	const afterEnter = (e) => {
 		console.log('afterEnter', e);
 	};
 
-	const leave = (e) => {
+	const leave = (e, done) => {
 		console.log('leave', e);
+
+		let round = 1;
+
+		leaveInterval.value = setInterval(() => {
+			e.style.opacity = 1 - round * 0.1;
+			round++;
+
+			if (round > 10) {
+				clearInterval(leaveInterval.value);
+				done();
+			}
+		}, 20);
 	};
 
 	const afterLeave = (e) => {
 		console.log('afterLeave', e);
+	};
+
+	const enterCancelled = (e) => {
+		console.log('enterCancelled', e);
+		clearInterval(enterInterval.value);
+	};
+
+	const leaveCancelled = (e) => {
+		console.log('leaveCancelled', e);
+		clearInterval(leaveInterval.value);
 	};
 </script>
 
@@ -64,6 +102,7 @@
 
 	<div class="container">
 		<transition
+			:css="false"
 			name="para"
 			@before-enter="beforeEnter"
 			@before-leave="beforeLeave"
@@ -71,6 +110,8 @@
 			@after-enter="afterEnter"
 			@leave="leave"
 			@after-leave="afterLeave"
+			@enter-cancelled="enterCancelled"
+			@leave-cancelled="leaveCancelled"
 		>
 			<p v-if="paraIsVisible">This is only sometimes visible...</p>
 		</transition>
@@ -147,25 +188,6 @@
 	.animate {
 		/* transform: translateX(-150px); */
 		animation: slide-scale 0.3s ease-out forwards;
-	}
-
-	.para-enter-active {
-		/* transition: all 0.3s ease-out; */
-		animation: slide-scale 0.3s ease-out;
-	}
-
-	.para-leave-from {
-		opacity: 1;
-		transform: translateY(0);
-	}
-
-	.para-leave-active {
-		transition: all 0.3s ease-in;
-	}
-
-	.para-leave-to {
-		opacity: 0;
-		transform: translateY(30px);
 	}
 
 	.fade-button-enter-from,

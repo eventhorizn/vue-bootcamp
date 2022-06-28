@@ -1479,3 +1479,5 @@ This element adds specific class at specific times
 - **NOTE**
 	- Transition can only work when it has one root element within it
 	- This also works if you have elements controlled by `v-if`
+
+## Building JavaScript Transitions (not CSS)
