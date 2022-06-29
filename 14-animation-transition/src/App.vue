@@ -1,5 +1,6 @@
 <script setup>
 	import BaseModal from './components/BaseModal.vue';
+	import UsersList from './components/UsersList.vue';
 	import { ref } from 'vue';
 
 	const dialogIsVisible = ref(false);
@@ -95,6 +96,10 @@
 </script>
 
 <template>
+	<div class="container">
+		<UsersList></UsersList>
+	</div>
+
 	<div class="container">
 		<div class="block" :class="{ animate: animatedBlock }"></div>
 		<button @click="animateBlock">Animate</button>
