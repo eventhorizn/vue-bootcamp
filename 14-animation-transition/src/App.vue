@@ -2,6 +2,7 @@
 	import BaseModal from './components/BaseModal.vue';
 	import UsersList from './components/UsersList.vue';
 	import { ref } from 'vue';
+	import { RouterView } from 'vue-router';
 
 	const dialogIsVisible = ref(false);
 	const animatedBlock = ref(false);
@@ -96,7 +97,13 @@
 </script>
 
 <template>
-	<div class="container">
+	<RouterView v-slot="slotProps">
+		<Transition name="fade-button" mode="out-in">
+			<component :is="slotProps.Component"></component>
+		</Transition>
+	</RouterView>
+
+	<!-- <div class="container">
 		<UsersList></UsersList>
 	</div>
 
@@ -138,7 +145,7 @@
 
 	<div class="container">
 		<button @click="showDialog">Show Dialog</button>
-	</div>
+	</div> -->
 </template>
 
 <style>
@@ -211,6 +218,20 @@
 	.fade-button-enter-to,
 	.fade-button-leave-from {
 		opacity: 1;
+	}
+
+	.route-enter-from {
+	}
+
+	.router-enter-active {
+		animation: slide-scal 0.4s ease-out;
+	}
+
+	.route-enter-to {
+	}
+
+	.route-leave-active {
+		animation: slide-scale 0.4s ease-in;
 	}
 
 	@keyframes slide-scale {
