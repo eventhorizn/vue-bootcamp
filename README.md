@@ -1501,6 +1501,7 @@ This element adds specific class at specific times
 	```
 	npm install --save vuex@next
 	```
+1. Saves us from doing lots of provide and inject from one component to the next
 
 - App.vue
 
@@ -1542,5 +1543,30 @@ This element adds specific class at specific times
 <template>
 	<h3>{{ counter }}</h3>
 </template>
-
 ```
+
+## Mutations
+
+- Centralizing functions that change state (mutations)
+- You should never modify state from within a component
+	- Considered bad practice
+
+```js
+const store = createStore({
+	state() {
+		return {
+			counter: 0,
+		};
+	},
+	mutations: {
+		increment(state) {
+			state.counter++;
+		},
+	},
+});
+```
+
+## Getters
+
+- Similar to mutations but the read side
+- Same idea, you may need to format data the same in multiple places
