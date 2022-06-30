@@ -1480,4 +1480,67 @@ This element adds specific class at specific times
 	- Transition can only work when it has one root element within it
 	- This also works if you have elements controlled by `v-if`
 
-## Building JavaScript Transitions (not CSS)
+# Vuex
+
+1. Library for managing global state (data)
+1. Two kinds of state
+	- Local State
+		- Affects one component
+		- User input, show/hide container
+	- Global State
+		- Affects multiple components
+		- Cart, auth
+1. Why use vuex?
+	- Fat components
+		- App.vue (or similar component) contain lots of data and logic
+	- Unpredictable
+		- Not always obvious where data gets changed in which way
+	- Error-prone
+		- Accidental or missed state updates are possible
+1. Install Vuex
+	```
+	npm install --save vuex@next
+	```
+
+- App.vue
+
+```vue
+<script setup>
+	import BaseContainer from './components/BaseContainer.vue';
+	import TheCounter from './components/TheCounter.vue';
+	import { useStore } from 'vuex';
+
+	const store = useStore();
+
+	const addOne = () => {
+		store.state.counter++;
+	};
+</script>
+
+<template>
+	<BaseContainer title="Vuex">
+		<TheCounter></TheCounter>
+		<button @click="addOne">Add 1</button>
+	</BaseContainer>
+</template>
+```
+
+- TheCounter
+
+```
+<script setup>
+	import { useStore } from 'vuex';
+	import { computed } from 'vue';
+
+	const store = useStore();
+
+	const counter = computed(() => {
+		return store.state.counter;
+	});
+</script>
+
+<template>
+	<h3>{{ counter }}</h3>
+</template>
+
+```
