@@ -1570,3 +1570,102 @@ const store = createStore({
 
 - Similar to mutations but the read side
 - Same idea, you may need to format data the same in multiple places
+
+```js
+const store = createStore({
+	state() {
+		return {
+			counter: 0,
+		};
+	},
+	mutations: {
+		increment(state) {
+			state.counter++;
+		},
+		increase(state, payload) {
+			state.counter += payload.value;
+		},
+	},
+	getters: {
+		finalCounter(state) {
+			return state.counter * 3;
+		},
+		normalizedCounter(_, getters) {
+			const finalCounter = getters.finalCounter;
+			if (finalCounter < 0) {
+				return 0;
+			}
+			if (finalCounter > 100) {
+				return 100;
+			}
+
+			return finalCounter;
+		},
+	},
+});
+```
+
+## Actions and Async
+
+- When you want to use async mutations, you use actions
+- You should never have async code in a mutation itself
+- Notice if we want to use an action that calls a mutation (which they all will), we name them the same
+	- We don't have to, but it's good practice
+
+```js
+const store = createStore({
+	state() {
+		return {
+			counter: 0,
+		};
+	},
+	mutations: {
+		increment(state) {
+			state.counter++;
+		},
+		increase(state, payload) {
+			state.counter += payload.value;
+		},
+	},
+	actions: {
+		increment(context) {
+			setTimeout(() => {
+				context.commit('increment');
+			}, 2000);
+		},
+		increase(context, payload) {
+			context.commit('increase', payload);
+		},
+	},
+	getters: {
+		finalCounter(state) {
+			return state.counter * 3;
+		},
+		normalizedCounter(_, getters) {
+			const finalCounter = getters.finalCounter;
+			if (finalCounter < 0) {
+				return 0;
+			}
+			if (finalCounter > 100) {
+				return 100;
+			}
+
+			return finalCounter;
+		},
+	},
+});
+```
+
+- We use `dispatch` instead of `commit`
+
+```vue
+<script setup>
+	import { useStore } from 'vuex';
+
+	const store = useStore();
+
+	const addOne = () => {
+		store.dispatch('increment');
+	};
+</script>
+```

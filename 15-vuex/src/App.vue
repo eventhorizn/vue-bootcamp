@@ -1,28 +1,37 @@
 <script setup>
+	import { useStore } from 'vuex';
+	import { computed } from '@vue/reactivity';
+
 	import BaseContainer from './components/BaseContainer.vue';
 	import TheCounter from './components/TheCounter.vue';
 	import ChangeCounter from './components/ChangeCounter.vue';
 	import FavoriteValue from './components/FavoriteValue.vue';
-
-	import { useStore } from 'vuex';
+	import UserAuth from './components/UserAuth.vue';
 
 	const store = useStore();
 
 	const addOne = () => {
 		//store.commit('increase', { value: 10 });
-		store.commit({
-			type: 'increase',
+		store.dispatch({
+			type: 'counter/increase',
 			value: 10,
 		});
 	};
+
+	const isAuth = computed(() => {
+		return store.getters['auth/userIsAuthenticated'];
+	});
 </script>
 
 <template>
-	<BaseContainer title="Vuex">
+	<BaseContainer title="Vuex" v-if="isAuth">
 		<TheCounter></TheCounter>
 		<FavoriteValue></FavoriteValue>
 		<button @click="addOne">Add 10</button>
 		<ChangeCounter></ChangeCounter>
+	</BaseContainer>
+	<BaseContainer title="Auth">
+		<UserAuth></UserAuth>
 	</BaseContainer>
 </template>
 

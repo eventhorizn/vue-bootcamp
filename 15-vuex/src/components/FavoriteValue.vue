@@ -5,7 +5,7 @@
 	const store = useStore();
 
 	const counter = computed(() => {
-		return store.getters.normalizedCounter;
+		return store.getters['counter/normalizedCounter'];
 	});
 </script>
 

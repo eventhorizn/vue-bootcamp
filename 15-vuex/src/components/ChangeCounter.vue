@@ -4,7 +4,7 @@
 	const store = useStore();
 
 	const addOne = () => {
-		store.commit('increment');
+		store.dispatch('counter/increment');
 	};
 </script>
 
