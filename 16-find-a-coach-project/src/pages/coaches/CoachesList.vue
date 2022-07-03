@@ -1,14 +1,37 @@
 <script setup>
-	import { computed } from 'vue';
+	import { computed, ref } from 'vue';
 	import { useStore } from 'vuex';
 	import CoachItem from '../../components/coaches/CoachItem.vue';
 	import BaseCard from '../../components/ui/BaseCard.vue';
 	import BaseButton from '../../components/ui/BaseButton.vue';
+	import CoachFilter from '../../components/coaches/CoachFilter.vue';
 
 	const store = useStore();
 
+	const activeFilters = ref({
+		frontend: true,
+		backend: true,
+		career: true,
+	});
+	const setFilters = (updatedFilters) => {
+		activeFilters.value = updatedFilters;
+	};
+
 	const filteredCoaches = computed(() => {
-		return store.getters['coaches/coaches'];
+		const coaches = store.getters['coaches/coaches'];
+		return coaches.filter((x) => {
+			if (activeFilters.value.frontend && x.areas.includes('frontend')) {
+				return true;
+			}
+			if (activeFilters.value.backend && x.areas.includes('backend')) {
+				return true;
+			}
+			if (activeFilters.value.career && x.areas.includes('career')) {
+				return true;
+			}
+
+			return false;
+		});
 	});
 	const hasCoaches = computed(() => {
 		return store.getters['coaches/hasCoaches'];
@@ -16,7 +39,7 @@
 </script>
 
 <template>
-	<section>FILTER</section>
+	<section><CoachFilter @changeFilter="setFilters"></CoachFilter></section>
 	<section>
 		<BaseCard>
 			<div class="controls">
