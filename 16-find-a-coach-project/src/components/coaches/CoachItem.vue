@@ -1,6 +1,8 @@
 <script setup>
 	import { computed } from 'vue';
-	import { RouterLink, useRoute } from 'vue-router';
+	import { useRoute } from 'vue-router';
+	import BaseButton from '../../components/ui/BaseButton.vue';
+	import BaseBadge from '../../components/ui/BaseBadge.vue';
 
 	const props = defineProps({
 		id: String,
@@ -28,11 +30,18 @@
 		<h3>{{ fullName }}</h3>
 		<h4>${{ rate }}/hour</h4>
 		<div>
-			<span v-for="area in areas" :key="area">{{ area }}</span>
+			<BaseBadge
+				v-for="area in areas"
+				:key="area"
+				:type="area"
+				:title="area"
+			></BaseBadge>
 		</div>
 		<div class="actions">
-			<RouterLink :to="coachContactLink">Contact</RouterLink>
-			<RouterLink :to="coachDetailsLink">View Details</RouterLink>
+			<BaseButton link mode="outline" :to="coachContactLink"
+				>Contact</BaseButton
+			>
+			<BaseButton link :to="coachDetailsLink">View Details</BaseButton>
 		</div>
 	</li>
 </template>
