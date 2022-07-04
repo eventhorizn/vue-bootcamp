@@ -2,6 +2,8 @@
 	import { ref } from 'vue';
 	import BaseButton from '../../components/ui/BaseButton.vue';
 
+	const emit = defineEmits(['save-data']);
+
 	const firstName = ref('');
 	const lastName = ref('');
 	const description = ref('');
@@ -17,7 +19,7 @@
 			areas: areas.value,
 		};
 
-		console.log(formData);
+		emit('save-data', formData);
 	};
 </script>
 

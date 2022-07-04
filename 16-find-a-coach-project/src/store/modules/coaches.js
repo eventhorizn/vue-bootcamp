@@ -28,11 +28,33 @@ const getters = {
 	hasCoaches(state) {
 		return state.coaches && state.coaches.length > 0;
 	},
+	isCoach(_, getters, _2, rootGetters) {
+		const coaches = getters.coaches;
+		const userId = rootGetters.userId;
+		return coaches.some((x) => x.id === userId);
+	},
 };
 
-const actions = {};
+const actions = {
+	registerCoach(context, data) {
+		const coachData = {
+			id: context.rootGetters.userId,
+			firstName: data.first,
+			lastName: data.last,
+			description: data.desc,
+			hourlyRate: data.rate,
+			areas: data.areas,
+		};
 
-const mutations = {};
+		context.commit('registerCoach', coachData);
+	},
+};
+
+const mutations = {
+	registerCoach(state, payload) {
+		state.coaches.push(payload);
+	},
+};
 
 export default {
 	namespaced: true,

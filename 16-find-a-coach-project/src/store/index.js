@@ -7,4 +7,14 @@ export default createStore({
 		coaches,
 		requests,
 	},
+	state() {
+		return {
+			userId: 'c3',
+		};
+	},
+	getters: {
+		userId(state) {
+			return state.userId;
+		},
+	},
 });
