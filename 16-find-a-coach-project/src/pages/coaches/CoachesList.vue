@@ -5,6 +5,7 @@
 	import BaseCard from '../../components/ui/BaseCard.vue';
 	import BaseButton from '../../components/ui/BaseButton.vue';
 	import CoachFilter from '../../components/coaches/CoachFilter.vue';
+	import BaseSpinner from '../../components/ui/BaseSpinner.vue';
 
 	const store = useStore();
 
@@ -17,8 +18,11 @@
 		activeFilters.value = updatedFilters;
 	};
 
-	const loadCoaches = () => {
-		store.dispatch('coaches/loadCoaches');
+	const isLoading = ref(false);
+	const loadCoaches = async () => {
+		isLoading.value = true;
+		await store.dispatch('coaches/loadCoaches');
+		isLoading.value = false;
 	};
 
 	const filteredCoaches = computed(() => {
@@ -39,7 +43,7 @@
 	});
 
 	const hasCoaches = computed(() => {
-		return store.getters['coaches/hasCoaches'];
+		return !isLoading.value && store.getters['coaches/hasCoaches'];
 	});
 
 	const isCoach = computed(() => {
@@ -55,11 +59,14 @@
 		<BaseCard>
 			<div class="controls">
 				<BaseButton mode="outline" @click="loadCoaches">Refresh</BaseButton>
-				<BaseButton v-if="!isCoach" link to="/register"
+				<BaseButton v-if="!isCoach && !isLoading" link to="/register"
 					>Register as Coach</BaseButton
 				>
 			</div>
-			<ul v-if="hasCoaches">
+			<div v-if="isLoading">
+				<BaseSpinner></BaseSpinner>
+			</div>
+			<ul v-else-if="hasCoaches">
 				<CoachItem
 					v-for="coach in filteredCoaches"
 					:key="coach.id"
