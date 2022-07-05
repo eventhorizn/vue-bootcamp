@@ -2,7 +2,14 @@ const state = {
 	requests: [],
 };
 
-const getters = {};
+const getters = {
+	requests(state) {
+		return state.requests;
+	},
+	hasRequests(state) {
+		return state.requests && state.requests.length > 0;
+	},
+};
 
 const actions = {
 	contactCoach(context, payload) {
