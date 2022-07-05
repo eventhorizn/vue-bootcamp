@@ -1,10 +1,16 @@
 <script setup>
 	import { ref } from 'vue';
+	import { useRoute, useRouter } from 'vue-router';
+	import { useStore } from 'vuex';
 	import BaseButton from '../../components/ui/BaseButton.vue';
 
 	const email = ref('');
 	const message = ref('');
 	const formIsValid = ref(true);
+
+	const store = useStore();
+	const route = useRoute();
+	const router = useRouter();
 
 	const submitForm = () => {
 		formIsValid.value = true;
@@ -17,6 +23,14 @@
 			formIsValid.value = false;
 			return;
 		}
+
+		store.dispatch('requests/contactCoach', {
+			email: email.value,
+			message: message.value,
+			coachId: route.params.id,
+		});
+
+		router.replace('/coaches');
 	};
 </script>
 

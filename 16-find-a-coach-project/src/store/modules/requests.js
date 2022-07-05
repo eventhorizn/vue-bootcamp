@@ -1,12 +1,27 @@
 const state = {
-	isLoggedIn: false,
+	requests: [],
 };
 
 const getters = {};
 
-const actions = {};
+const actions = {
+	contactCoach(context, payload) {
+		const newRequest = {
+			id: new Date().toISOString(),
+			coachId: payload.coachId,
+			userEmail: payload.email,
+			message: payload.message,
+		};
 
-const mutations = {};
+		context.commit('addRequest', newRequest);
+	},
+};
+
+const mutations = {
+	addRequest(state, payload) {
+		state.requests.push(payload);
+	},
+};
 
 export default {
 	namespaced: true,
