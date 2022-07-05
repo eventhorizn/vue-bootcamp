@@ -17,6 +17,10 @@
 		activeFilters.value = updatedFilters;
 	};
 
+	const loadCoaches = () => {
+		store.dispatch('coaches/loadCoaches');
+	};
+
 	const filteredCoaches = computed(() => {
 		const coaches = store.getters['coaches/coaches'];
 		return coaches.filter((x) => {
@@ -41,6 +45,8 @@
 	const isCoach = computed(() => {
 		return store.getters['coaches/isCoach'];
 	});
+
+	loadCoaches();
 </script>
 
 <template>
@@ -48,7 +54,7 @@
 	<section>
 		<BaseCard>
 			<div class="controls">
-				<BaseButton mode="outline">Refresh</BaseButton>
+				<BaseButton mode="outline" @click="loadCoaches">Refresh</BaseButton>
 				<BaseButton v-if="!isCoach" link to="/register"
 					>Register as Coach</BaseButton
 				>
