@@ -1,5 +1,6 @@
 const state = {
 	coaches: [],
+	lastFetch: null,
 };
 
 const getters = {
@@ -13,6 +14,16 @@ const getters = {
 		const coaches = getters.coaches;
 		const userId = rootGetters.userId;
 		return coaches.some((x) => x.id === userId);
+	},
+	shouldUpdate(state) {
+		const lastFetch = state.lastFetch;
+
+		if (!lastFetch) {
+			return true;
+		}
+
+		const currentTimestamp = new Date().getTime();
+		return (currentTimestamp - lastFetch) / 1000 > 60;
 	},
 };
 
@@ -38,7 +49,11 @@ const actions = {
 
 		context.commit('registerCoach', { ...coachData, id: userId });
 	},
-	async loadCoaches(context) {
+	async loadCoaches(context, payload) {
+		if (!payload.forceRefresh && !context.getters.shouldUpdate) {
+			return;
+		}
+
 		const response = await fetch(
 			`https://vue-http-demo-2178f-default-rtdb.firebaseio.com/coaches.json`
 		);
@@ -64,6 +79,7 @@ const actions = {
 		}
 
 		context.commit('setCoaches', coaches);
+		context.commit('setFetchTimestamp');
 	},
 };
 
@@ -73,6 +89,9 @@ const mutations = {
 	},
 	setCoaches(state, payload) {
 		state.coaches = payload;
+	},
+	setFetchTimestamp(state) {
+		state.lastFetch = new Date().getTime();
 	},
 };
 

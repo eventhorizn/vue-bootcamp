@@ -23,10 +23,12 @@
 	const error = ref(null);
 	const isLoading = ref(false);
 
-	const loadCoaches = async () => {
+	const loadCoaches = async (refresh = false) => {
 		isLoading.value = true;
 		try {
-			await store.dispatch('coaches/loadCoaches');
+			await store.dispatch('coaches/loadCoaches', {
+				forceRefresh: refresh,
+			});
 		} catch (err) {
 			error.value = err.message || 'Something went wrong!';
 		}
@@ -78,7 +80,9 @@
 	<section>
 		<BaseCard>
 			<div class="controls">
-				<BaseButton mode="outline" @click="loadCoaches"> Refresh </BaseButton>
+				<BaseButton mode="outline" @click="loadCoaches(true)">
+					Refresh
+				</BaseButton>
 				<BaseButton v-if="!isCoach && !isLoading" link to="/register">
 					Register as Coach
 				</BaseButton>
