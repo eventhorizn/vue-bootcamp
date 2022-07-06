@@ -52,7 +52,7 @@ const actions = {
 		);
 
 		if (!response.ok) {
-			// error...
+			//const error = new Error(responsd);
 		}
 
 		context.commit('registerCoach', { ...coachData, id: userId });
@@ -65,7 +65,7 @@ const actions = {
 		const responseData = await response.json();
 
 		if (!response.ok) {
-			// error...
+			throw new Error(responseData.message || 'Failed to fetch!');
 		}
 
 		const coaches = [];

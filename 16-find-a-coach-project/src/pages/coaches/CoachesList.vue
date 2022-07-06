@@ -6,6 +6,7 @@
 	import BaseButton from '../../components/ui/BaseButton.vue';
 	import CoachFilter from '../../components/coaches/CoachFilter.vue';
 	import BaseSpinner from '../../components/ui/BaseSpinner.vue';
+	import BaseDialog from '../../components/ui/BaseDialog.vue';
 
 	const store = useStore();
 
@@ -14,15 +15,27 @@
 		backend: true,
 		career: true,
 	});
+
 	const setFilters = (updatedFilters) => {
 		activeFilters.value = updatedFilters;
 	};
 
+	const error = ref(null);
 	const isLoading = ref(false);
+
 	const loadCoaches = async () => {
 		isLoading.value = true;
-		await store.dispatch('coaches/loadCoaches');
+		try {
+			await store.dispatch('coaches/loadCoaches');
+		} catch (err) {
+			error.value = err.message || 'Something went wrong!';
+		}
+
 		isLoading.value = false;
+	};
+
+	const handleError = () => {
+		error.value = null;
 	};
 
 	const filteredCoaches = computed(() => {
@@ -54,14 +67,21 @@
 </script>
 
 <template>
-	<section><CoachFilter @changeFilter="setFilters"></CoachFilter></section>
+	<BaseDialog :show="!!error" title="An error occured!" @close="handleError">
+		<p>{{ error }}</p>
+	</BaseDialog>
+
+	<section>
+		<CoachFilter @changeFilter="setFilters"></CoachFilter>
+	</section>
+
 	<section>
 		<BaseCard>
 			<div class="controls">
-				<BaseButton mode="outline" @click="loadCoaches">Refresh</BaseButton>
-				<BaseButton v-if="!isCoach && !isLoading" link to="/register"
-					>Register as Coach</BaseButton
-				>
+				<BaseButton mode="outline" @click="loadCoaches"> Refresh </BaseButton>
+				<BaseButton v-if="!isCoach && !isLoading" link to="/register">
+					Register as Coach
+				</BaseButton>
 			</div>
 			<div v-if="isLoading">
 				<BaseSpinner></BaseSpinner>
