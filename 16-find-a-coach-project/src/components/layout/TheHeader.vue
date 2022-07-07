@@ -1,10 +1,11 @@
 <script setup>
 	import { computed } from 'vue';
-	import { RouterLink } from 'vue-router';
+	import { RouterLink, useRouter } from 'vue-router';
 	import { useStore } from 'vuex';
 	import BaseButton from '../ui/BaseButton.vue';
 
 	const store = useStore();
+	const router = useRouter();
 
 	const isLoggedIn = computed(() => {
 		return store.getters.isAuthenticated;
@@ -12,6 +13,7 @@
 
 	const logout = () => {
 		store.dispatch('logout');
+		router.replace('/coaches');
 	};
 </script>
 

@@ -5,6 +5,7 @@
 	import BaseSpinner from '../../components/ui/BaseSpinner.vue';
 	import { ref, computed } from 'vue';
 	import { useStore } from 'vuex';
+	import { useRouter, useRoute } from 'vue-router';
 
 	const email = ref('');
 	const password = ref('');
@@ -14,6 +15,8 @@
 	const error = ref(null);
 
 	const store = useStore();
+	const router = useRouter();
+	const route = useRoute();
 
 	const submitForm = async () => {
 		formIsValid.value = true;
@@ -39,6 +42,9 @@
 			} else {
 				await store.dispatch('signup', actionPayload);
 			}
+
+			const redirectUrl = '/' + (route.query.redirect || 'coaches');
+			router.replace(redirectUrl);
 		} catch (err) {
 			error.value = err.message || 'Failed to authenticate, try later';
 		}
