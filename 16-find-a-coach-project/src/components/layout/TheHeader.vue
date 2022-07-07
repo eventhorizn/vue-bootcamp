@@ -1,5 +1,18 @@
 <script setup>
+	import { computed } from 'vue';
 	import { RouterLink } from 'vue-router';
+	import { useStore } from 'vuex';
+	import BaseButton from '../ui/BaseButton.vue';
+
+	const store = useStore();
+
+	const isLoggedIn = computed(() => {
+		return store.getters.isAuthenticated;
+	});
+
+	const logout = () => {
+		store.dispatch('logout');
+	};
 </script>
 
 <template>
@@ -8,7 +21,15 @@
 			<h1><RouterLink to="/">Find a Coach</RouterLink></h1>
 			<ul>
 				<li><RouterLink to="/coaches">All Coaches</RouterLink></li>
-				<li><RouterLink to="/requests">Requests</RouterLink></li>
+				<li v-if="isLoggedIn">
+					<RouterLink to="/requests">Requests</RouterLink>
+				</li>
+				<li v-else>
+					<RouterLink to="/auth">Login</RouterLink>
+				</li>
+				<li v-if="isLoggedIn">
+					<BaseButton @click="logout">Logout</BaseButton>
+				</li>
 			</ul>
 		</nav>
 	</header>

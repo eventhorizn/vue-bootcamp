@@ -28,14 +28,16 @@
 
 		isLoading.value = true;
 
+		const actionPayload = {
+			email: email.value,
+			password: password.value,
+		};
+
 		try {
 			if (mode.value === 'login') {
-				//
+				await store.dispatch('login', actionPayload);
 			} else {
-				await store.dispatch('signup', {
-					email: email.value,
-					password: password.value,
-				});
+				await store.dispatch('signup', actionPayload);
 			}
 		} catch (err) {
 			error.value = err.message || 'Failed to authenticate, try later';

@@ -65,6 +65,10 @@
 		return store.getters['coaches/isCoach'];
 	});
 
+	const isLoggedIn = computed(() => {
+		return store.getters.isAuthenticated;
+	});
+
 	loadCoaches();
 </script>
 
@@ -84,7 +88,12 @@
 					<BaseButton mode="outline" @click="loadCoaches(true)">
 						Refresh
 					</BaseButton>
-					<BaseButton v-if="!isCoach && !isLoading" link to="/register">
+					<BaseButton link to="/auth" v-if="!isLoggedIn">Login</BaseButton>
+					<BaseButton
+						v-if="isLoggedIn && !isCoach && !isLoading"
+						link
+						to="/register"
+					>
 						Register as Coach
 					</BaseButton>
 				</div>

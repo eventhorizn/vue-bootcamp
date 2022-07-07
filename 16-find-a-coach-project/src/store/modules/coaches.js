@@ -38,13 +38,16 @@ const actions = {
 			areas: data.areas,
 		};
 
+		const token = context.rootGetters.token;
+
 		const response = await fetch(
-			`https://vue-http-demo-2178f-default-rtdb.firebaseio.com/coaches/${userId}.json`,
+			`https://vue-http-demo-2178f-default-rtdb.firebaseio.com/coaches/${userId}.json?auth=${token}`,
 			{ method: 'PUT', body: JSON.stringify(coachData) }
 		);
+		const responseData = await response.json();
 
 		if (!response.ok) {
-			//const error = new Error(responsd);
+			throw new Error(responseData.message || 'Failed to send requests.');
 		}
 
 		context.commit('registerCoach', { ...coachData, id: userId });
