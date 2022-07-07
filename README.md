@@ -1682,4 +1682,8 @@ Ultimately, pretty standard, but we are using Firebase for authentication
 # Reusability
 
 1. Mixins (Options API)
+	- Things defined in a component override things defined in a mixin
+	- Negatives
+		- Code gets confusing
+		- Override behaviour can get hard to manage
 1. Custom Composition Functions (Composition API)
