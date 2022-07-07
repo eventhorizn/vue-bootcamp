@@ -1669,3 +1669,12 @@ const store = createStore({
 	};
 </script>
 ```
+
+# Authentication
+
+Ultimately, pretty standard, but we are using Firebase for authentication
+
+1. Setting up rules on our Realtime database
+1. Getting a 'Sign up with email / password' api endpoint
+	- [Link](https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]`
+1. Get the web api key from your project settings
