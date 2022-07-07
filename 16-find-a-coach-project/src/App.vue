@@ -9,14 +9,11 @@
 
 	store.dispatch('tryLogin');
 
-	watch(
-		() => store.getters.didAutoLogout,
-		(curValue, oldValue) => {
-			if (curValue && curValue !== oldValue) {
-				router.replace('/coaches');
-			}
+	watch(store.getters.didAutoLogout, (curValue, oldValue) => {
+		if (curValue && curValue !== oldValue) {
+			router.replace('/coaches');
 		}
-	);
+	});
 </script>
 
 <template>
