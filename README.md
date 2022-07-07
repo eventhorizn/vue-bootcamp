@@ -1687,3 +1687,12 @@ Ultimately, pretty standard, but we are using Firebase for authentication
 		- Code gets confusing
 		- Override behaviour can get hard to manage
 1. Custom Composition Functions (Composition API)
+	- Much more flexible and understandable
+		- Configurable
+	- Custom hook returns the items that should be used
+	- The composition api just makes it all a mix of js classes
+
+
+# TODO
+
+1. Turn lots of the functinoality in 'find a coach' to use custom hooks
