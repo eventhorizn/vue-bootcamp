@@ -1678,3 +1678,8 @@ Ultimately, pretty standard, but we are using Firebase for authentication
 1. Getting a 'Sign up with email / password' api endpoint
 	- [Link](https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]`
 1. Get the web api key from your project settings
+
+# Reusability
+
+1. Mixins (Options API)
+1. Custom Composition Functions (Composition API)
