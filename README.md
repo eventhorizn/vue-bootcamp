@@ -1696,6 +1696,13 @@ Ultimately, pretty standard, but we are using Firebase for authentication
 
 1. Consider using 'async components'
 	- [Link](https://vuejs.org/guide/components/async.html#basic-usage)
+1. Run npm build
+	```
+	npm run build
+	```
+1. Deploying to Firebase
+	- Follw instructions [here](https://console.firebase.google.com/u/0/project/vue-http-demo-2178f/hosting/sites)
+1. If I was serious about a vue project, I'd deploy to DO
 
 # TODO
 
