@@ -1,11 +1,14 @@
 <script setup>
 	import BaseButton from '../../components/ui/BaseButton.vue';
 	import BaseCard from '../../components/ui/BaseCard.vue';
-	import BaseDialog from '../../components/ui/BaseDialog.vue';
 	import BaseSpinner from '../../components/ui/BaseSpinner.vue';
-	import { ref, computed } from 'vue';
+	import { ref, computed, defineAsyncComponent } from 'vue';
 	import { useStore } from 'vuex';
 	import { useRouter, useRoute } from 'vue-router';
+
+	const BaseDialog = defineAsyncComponent(() =>
+		import('../../components/ui/BaseDialog.vue')
+	);
 
 	const email = ref('');
 	const password = ref('');

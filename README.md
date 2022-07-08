@@ -1692,6 +1692,10 @@ Ultimately, pretty standard, but we are using Firebase for authentication
 	- Custom hook returns the items that should be used
 	- The composition api just makes it all a mix of js classes
 
+# Deploying an Vue Application
+
+1. Consider using 'async components'
+	- [Link](https://vuejs.org/guide/components/async.html#basic-usage)
 
 # TODO
 

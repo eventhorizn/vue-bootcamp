@@ -2,9 +2,12 @@
 	import BaseCard from '../../components/ui/BaseCard.vue';
 	import RequestItem from '../../components/requests/RequestItem.vue';
 	import { useStore } from 'vuex';
-	import { computed, ref } from 'vue';
-	import BaseDialog from '../../components/ui/BaseDialog.vue';
+	import { computed, ref, defineAsyncComponent } from 'vue';
 	import BaseSpinner from '../../components/ui/BaseSpinner.vue';
+
+	const BaseDialog = defineAsyncComponent(() =>
+		import('../../components/ui/BaseDialog.vue')
+	);
 
 	const store = useStore();
 
